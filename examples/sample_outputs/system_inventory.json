@@ -1,0 +1,40 @@
+{
+  "platform_name": "DataForge - Enterprise GCP Data Platform",
+  "generated_at_utc": "2026-08-06T16:15:29.959688+00:00",
+  "target_environments": [
+    "dataforge-dev",
+    "dataforge-staging",
+    "dataforge-prod"
+  ],
+  "active_deployment_environment": "dataforge-prod",
+  "resource_inventory": {
+    "vpc_network": "dataforge-vpc-main",
+    "subnets": [
+      "dataforge-subnet-us-central1",
+      "dataforge-subnet-us-east4"
+    ],
+    "cloud_nat": "dataforge-nat-gateway",
+    "gcs_buckets": [
+      "dataforge-prod-raw-bronze",
+      "dataforge-prod-processed-silver",
+      "dataforge-prod-quarantine",
+      "dataforge-prod-terraform-state"
+    ],
+    "bigquery_datasets": [
+      "dataforge_raw",
+      "dataforge_silver",
+      "gold_analytics",
+      "dataforge_monitoring"
+    ],
+    "dataproc_cluster": "dataproc-pyspark-prod-cluster",
+    "alloydb_cluster": "alloydb-psql-prod-cluster",
+    "secret_manager_secrets": [
+      "projects/dataforge-prod/secrets/db_credentials",
+      "projects/dataforge-prod/secrets/workload_identity_provider",
+      "projects/dataforge-prod/secrets/app_signing_key",
+      "projects/dataforge-prod/secrets/kms_encryption_key"
+    ],
+    "cloud_kms_keyring": "dataforge-prod-cmek-keyring",
+    "datastream_cdc_stream": "datastream-mysql-to-alloydb-stream"
+  }
+}

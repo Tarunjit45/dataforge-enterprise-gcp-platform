@@ -142,6 +142,19 @@ def test_production_readiness_scorecard(tmp_path):
 
 
 @pytest.mark.unit
+def test_production_deployment_engine(tmp_path):
+    """Verify ProductionDeploymentEngine report generation and validation checks."""
+    from src.operations.deployment_engine import ProductionDeploymentEngine
+    engine = ProductionDeploymentEngine(output_dir=str(tmp_path))
+    reports = engine.run_full_deployment_pipeline()
+
+    assert len(reports) == 3
+    assert Path(tmp_path / "system_inventory.json").exists()
+    assert Path(tmp_path / "deployment_validation.json").exists()
+    assert Path(tmp_path / "production_deployment_report.json").exists()
+
+
+@pytest.mark.unit
 def test_all_operational_reports_generation(tmp_path):
     """Verify generation of all 8 required Phase 12 JSON report artifacts."""
     consolidator = OperationalReportConsolidator(output_dir=str(tmp_path))

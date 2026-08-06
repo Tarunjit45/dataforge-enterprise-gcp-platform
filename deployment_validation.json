@@ -1,0 +1,97 @@
+{
+  "platform_name": "DataForge - Enterprise GCP Data Platform",
+  "deployment_version": "1.0.0",
+  "validated_at_utc": "2026-08-06T16:15:29.961951+00:00",
+  "overall_deployment_validation_status": "PASSED \ud83d\ude80",
+  "secrets_validation": {
+    "environment": "dev",
+    "validated_at_utc": "2026-08-06T16:15:29.961951+00:00",
+    "overall_secrets_status": "VERIFIED",
+    "secrets": {
+      "projects/dataforge-prod/secrets/db_credentials": "ACCESSIBLE_VERIFIED",
+      "projects/dataforge-prod/secrets/workload_identity_provider": "ACCESSIBLE_VERIFIED",
+      "projects/dataforge-prod/secrets/app_signing_key": "ACCESSIBLE_VERIFIED",
+      "projects/dataforge-prod/secrets/kms_encryption_key": "ACCESSIBLE_VERIFIED"
+    }
+  },
+  "bigquery_validation": {
+    "overall_bigquery_status": "DEPLOYED_AND_VERIFIED",
+    "objects_count": 13,
+    "objects": [
+      {
+        "object": "Dataset: dataforge_raw",
+        "type": "DATASET",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "Dataset: dataforge_silver",
+        "type": "DATASET",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "Dataset: gold_analytics",
+        "type": "DATASET",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "Dataset: dataforge_monitoring",
+        "type": "DATASET",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "Table: gold_analytics.dim_customer",
+        "type": "DIMENSION_SCD2",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "Table: gold_analytics.dim_vendor",
+        "type": "DIMENSION_SCD2",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "Table: gold_analytics.dim_location",
+        "type": "DIMENSION_SCD2",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "Table: gold_analytics.dim_payment_type",
+        "type": "DIMENSION_SCD2",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "Table: gold_analytics.dim_date",
+        "type": "DIMENSION_STATIC",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "Table: gold_analytics.dim_rate_code",
+        "type": "DIMENSION_SCD2",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "Table: gold_analytics.fact_trip",
+        "type": "FACT_PARTITIONED",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "View: gold_analytics.mv_executive_summary_mart",
+        "type": "MATERIALIZED_VIEW",
+        "status": "DEPLOYED"
+      },
+      {
+        "object": "View: gold_analytics.mv_geographic_demand_mart",
+        "type": "MATERIALIZED_VIEW",
+        "status": "DEPLOYED"
+      }
+    ]
+  },
+  "infrastructure_components_verified": [
+    "VPC & Cloud NAT",
+    "IAM Least Privilege & Workload Identity",
+    "Cloud Storage Buckets (Bronze/Silver/Quarantine)",
+    "Dataproc PySpark Cluster",
+    "AlloyDB PostgreSQL & Datastream CDC",
+    "Cloud Monitoring & Logging Sinks",
+    "Looker Studio BI Dashboards"
+  ]
+}

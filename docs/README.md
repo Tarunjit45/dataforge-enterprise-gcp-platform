@@ -4,6 +4,8 @@ Welcome to the Enterprise GCP Data Platform documentation hub.
 
 ## 📖 Available Guides
 
+* [**Production Deployment Report**](deployment_report.md): GCP infrastructure inventory, secret configuration, and console screenshots evidence.
+* [**Production Walkthrough**](production_walkthrough.md): Step-by-step production operational walkthrough and UI visual evidence.
 * [**End-to-End Pipeline Demonstration**](end_to_end_demo.md): Execution guide for single-entrypoint orchestrator pipeline.
 * [**Deployment Architecture Validation**](deployment_validation.md): Verification procedures for GCP infrastructure components.
 * [**Full Architecture Walkthrough**](architecture_walkthrough.md): Technical deep-dive into system patterns and data flow.

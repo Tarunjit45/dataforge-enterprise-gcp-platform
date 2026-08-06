@@ -1,0 +1,98 @@
+# =============================================================================
+# Looker Studio Enterprise BI Dashboard Specifications
+# =============================================================================
+
+dashboards:
+  executive_kpi_dashboard:
+    name: "Executive KPI Dashboard"
+    target_audience: "C-Suite & Vice Presidents of Engineering/Data"
+    datasource: "gold_analytics.mv_executive_summary_mart"
+    widgets:
+      - title: "Total Platform Revenue ($)"
+        type: "scorecard"
+        field: "SUM(total_revenue)"
+      - title: "Total Completed Trips"
+        type: "scorecard"
+        field: "SUM(total_trips)"
+      - title: "Average Fare per Trip ($)"
+        type: "scorecard"
+        field: "AVG(avg_fare_amount)"
+      - title: "Monthly Revenue Growth Trend"
+        type: "time_series"
+        field: "month_year, total_revenue"
+
+  revenue_summary:
+    name: "Revenue Summary Dashboard"
+    datasource: "gold_analytics.fact_trip"
+    widgets:
+      - title: "Gross Revenue by Payment Type"
+        type: "pie_chart"
+        field: "payment_type, SUM(total_amount)"
+      - title: "Fare vs Tip vs Surcharge Breakdown"
+        type: "stacked_bar"
+        field: "trip_date, fare_amount, tip_amount, tolls_amount, improvement_surcharge"
+
+  daily_trips:
+    name: "Daily Trips Dashboard"
+    datasource: "gold_analytics.fact_trip"
+    widgets:
+      - title: "Daily Trip Volume Count"
+        type: "bar_chart"
+        field: "trip_date, COUNT(trip_key)"
+      - title: "Average Trip Distance (Miles)"
+        type: "line_chart"
+        field: "trip_date, AVG(trip_distance)"
+
+  monthly_revenue_growth:
+    name: "Monthly Revenue Growth Dashboard"
+    datasource: "gold_analytics.mv_executive_summary_mart"
+    widgets:
+      - title: "MoM Revenue Growth (%)"
+        type: "column_chart"
+        field: "month_year, mom_growth_percent"
+
+  vendor_performance:
+    name: "Vendor Performance Dashboard"
+    datasource: "gold_analytics.fact_trip JOIN gold_analytics.dim_vendor"
+    widgets:
+      - title: "Trip Market Share by Vendor"
+        type: "donut_chart"
+        field: "vendor_name, COUNT(trip_key)"
+      - title: "Average Fare Amount by Vendor"
+        type: "table"
+        field: "vendor_name, AVG(fare_amount), SUM(total_amount)"
+
+  payment_analysis:
+    name: "Payment Analysis Dashboard"
+    datasource: "gold_analytics.fact_trip JOIN gold_analytics.dim_payment_type"
+    widgets:
+      - title: "Credit Card vs Cash Ratio"
+        type: "pie_chart"
+        field: "payment_type_name, COUNT(trip_key)"
+      - title: "Tip Percentage by Payment Type"
+        type: "bar_chart"
+        field: "payment_type_name, AVG(tip_amount / fare_amount * 100)"
+
+  peak_hour_analysis:
+    name: "Peak Hour Analysis Dashboard"
+    datasource: "gold_analytics.fact_trip"
+    widgets:
+      - title: "Hourly Pickup Demand Heatmap"
+        type: "heatmap"
+        field: "pickup_hour, pickup_day_of_week, COUNT(trip_key)"
+
+  passenger_trends:
+    name: "Passenger Trends Dashboard"
+    datasource: "gold_analytics.fact_trip"
+    widgets:
+      - title: "Passenger Count Distribution (1-6 Passengers)"
+        type: "bar_chart"
+        field: "passenger_count, COUNT(trip_key)"
+
+  geographic_demand:
+    name: "Geographic Demand Dashboard"
+    datasource: "gold_analytics.mv_geographic_demand_mart"
+    widgets:
+      - title: "NYC Zone Pickup Demand Map"
+        type: "geo_map"
+        field: "pickup_zone, total_pickups, total_revenue"
