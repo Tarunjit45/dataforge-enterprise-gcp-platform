@@ -1,0 +1,40 @@
+# =============================================================================
+# Service Level Objectives (SLO) & Error Budget Configuration
+# =============================================================================
+
+slos:
+  platform_availability:
+    name: "Platform System Availability"
+    target_percent: 99.9
+    window_days: 30
+    description: "Successful pipeline execution availability over a 30-day window"
+
+  pipeline_latency:
+    name: "Bronze-to-Silver ETL Processing Latency"
+    target_percent: 95.0
+    threshold_seconds: 300.0
+    window_days: 7
+    description: "95% of Silver batch loads complete within 5 minutes"
+
+  data_freshness:
+    name: "Gold Analytics Data Freshness SLA"
+    target_percent: 99.0
+    threshold_minutes: 60.0
+    window_days: 30
+    description: "Gold warehouse updated within 60 minutes of raw arrival"
+
+  pipeline_success_rate:
+    name: "End-to-End Pipeline Job Success Rate"
+    target_percent: 99.5
+    window_days: 30
+    description: "Percentage of pipeline jobs completed without unhandled exceptions"
+
+  recovery_time_objective:
+    name: "Mean Time to Recover (MTTR)"
+    target_minutes: 15.0
+    description: "Target recovery time objective for pipeline failures or cutover rollbacks"
+
+error_budget:
+  alert_burn_rate_thresholds:
+    1h_burn_rate: 14.4 # Burns 2% of monthly budget in 1 hour (Critical)
+    6h_burn_rate: 6.0  # Burns 5% of monthly budget in 6 hours (High)

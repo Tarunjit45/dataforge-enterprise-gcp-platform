@@ -1,0 +1,11 @@
+# =============================================================================
+# CIS GCP Benchmark Compliance Policy Configuration
+# =============================================================================
+
+cis_benchmarks:
+  cmek_encryption_required: true
+  private_google_access_required: true
+  zero_public_ips_required: true
+  audit_logging_sink_required: true
+  gcs_bucket_versioning_required: true
+  no_primitive_roles_allowed: true

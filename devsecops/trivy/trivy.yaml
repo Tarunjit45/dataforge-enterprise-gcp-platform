@@ -1,0 +1,29 @@
+# =============================================================================
+# Trivy Vulnerability & Misconfiguration Scanner Configuration
+# =============================================================================
+
+exit-code: 1
+severity:
+  - HIGH
+  - CRITICAL
+
+security-checks:
+  - vuln
+  - config
+  - secret
+
+ignore-unfixed: true
+
+format: table
+
+vulnerability:
+  type:
+    - os
+    - library
+
+scan:
+  skip-dirs:
+    - .git
+    - .pytest_cache
+    - htmlcov
+    - venv

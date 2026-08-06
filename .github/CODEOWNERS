@@ -1,0 +1,17 @@
+# Code Ownership Definition for GCP Data Migration & ETL Platform
+
+# Global Owners
+* @enterprise/data-platform-leads @enterprise/senior-architects
+
+# Infrastructure & Security
+/terraform/                  @enterprise/platform-infra-team
+/.github/workflows/          @enterprise/devops-team
+
+# Data Engineering & ETL Modules
+/src/etl/                    @enterprise/data-eng-core
+/src/ingestion/              @enterprise/data-ingestion-team
+/src/migration/              @enterprise/dba-migration-team
+/src/bigquery/               @enterprise/data-warehouse-team
+
+# Core Common Utilities
+/src/common/                 @enterprise/core-framework-team

@@ -1,0 +1,62 @@
+[
+  {
+    "name": "Sales_Id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Unique transaction primary key"
+  },
+  {
+    "name": "Order_Timestamp",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "Transaction order timestamp (Partition key)"
+  },
+  {
+    "name": "Date_Key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Foreign key to DIM_DATE"
+  },
+  {
+    "name": "SK_Customer_Id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Foreign key to DIM_CUSTOMERS (Cluster key)"
+  },
+  {
+    "name": "SK_Product_Id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Foreign key to DIM_PRODUCTS"
+  },
+  {
+    "name": "Store_Id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Store location identifier (Cluster key)"
+  },
+  {
+    "name": "Quantity_Sold",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Number of items sold"
+  },
+  {
+    "name": "Total_Sales_Amount",
+    "type": "NUMERIC",
+    "mode": "REQUIRED",
+    "description": "Gross sales amount"
+  },
+  {
+    "name": "Tax_Amount",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "Sales tax amount"
+  },
+  {
+    "name": "Discount_Amount",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "Discount applied"
+  }
+]

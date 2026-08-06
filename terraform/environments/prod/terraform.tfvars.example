@@ -1,0 +1,4 @@
+project_id          = "enterprise-data-prod-98765"
+region              = "us-central1"
+alloydb_password    = "SuperSecureProdPassword99!"
+alert_email_address = "prod-sre@enterprise.com"

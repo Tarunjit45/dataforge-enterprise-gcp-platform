@@ -1,0 +1,194 @@
+[
+  {
+    "name": "trip_key",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Surrogate primary key for trip record (MD5/SHA256 hash)"
+  },
+  {
+    "name": "trip_id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Natural business key / transaction ID"
+  },
+  {
+    "name": "vendor_key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Surrogate foreign key referencing dim_vendor"
+  },
+  {
+    "name": "payment_type_key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Surrogate foreign key referencing dim_payment_type"
+  },
+  {
+    "name": "rate_code_key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Surrogate foreign key referencing dim_rate_code"
+  },
+  {
+    "name": "pickup_location_key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Surrogate foreign key referencing dim_location for pickup"
+  },
+  {
+    "name": "dropoff_location_key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Surrogate foreign key referencing dim_location for dropoff"
+  },
+  {
+    "name": "customer_key",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Surrogate foreign key referencing dim_customer"
+  },
+  {
+    "name": "pickup_date_key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Surrogate foreign key referencing dim_date for pickup date (YYYYMMDD)"
+  },
+  {
+    "name": "dropoff_date_key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Surrogate foreign key referencing dim_date for dropoff date (YYYYMMDD)"
+  },
+  {
+    "name": "trip_date",
+    "type": "DATE",
+    "mode": "REQUIRED",
+    "description": "Calendar pickup date (PARTITION KEY)"
+  },
+  {
+    "name": "pickup_datetime",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "Exact trip pickup timestamp"
+  },
+  {
+    "name": "dropoff_datetime",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "Exact trip dropoff timestamp"
+  },
+  {
+    "name": "passenger_count",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Total passenger count"
+  },
+  {
+    "name": "trip_distance",
+    "type": "FLOAT",
+    "mode": "REQUIRED",
+    "description": "Trip distance in miles"
+  },
+  {
+    "name": "fare_amount",
+    "type": "NUMERIC",
+    "mode": "REQUIRED",
+    "description": "Base fare amount charged by meter"
+  },
+  {
+    "name": "extra_amount",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "Miscellaneous extras and surcharges"
+  },
+  {
+    "name": "mta_tax",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "MTA tax automatically triggered by meter"
+  },
+  {
+    "name": "tip_amount",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "Tip amount"
+  },
+  {
+    "name": "tolls_amount",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "Total tolls paid"
+  },
+  {
+    "name": "improvement_surcharge",
+    "type": "NUMERIC",
+    "mode": "NULLABLE",
+    "description": "Improvement surcharge assessed at flag drop"
+  },
+  {
+    "name": "total_amount",
+    "type": "NUMERIC",
+    "mode": "REQUIRED",
+    "description": "Total charged amount to passenger"
+  },
+  {
+    "name": "trip_duration_minutes",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Calculated duration in elapsed minutes"
+  },
+  {
+    "name": "tip_percentage",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Calculated tip ratio relative to fare"
+  },
+  {
+    "name": "average_speed_mph",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Calculated average speed in mph"
+  },
+  {
+    "name": "weekend_flag",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Flag indicating weekend pickup"
+  },
+  {
+    "name": "peak_hour_flag",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Flag indicating rush hour pickup"
+  },
+  {
+    "name": "load_timestamp",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "Audit timestamp when record was written to Gold"
+  },
+  {
+    "name": "batch_id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "ETL Batch execution identifier"
+  },
+  {
+    "name": "source_execution_id",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Phase 7 source pipeline execution ID"
+  },
+  {
+    "name": "source_manifest",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Phase 7 validated manifest path"
+  },
+  {
+    "name": "data_quality_score",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Phase 7 calculated Data Quality score percentage"
+  }
+]

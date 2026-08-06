@@ -1,0 +1,27 @@
+{
+  "environment": "dev",
+  "overall_security_passed": true,
+  "audited_at_utc": "2026-08-06T15:50:57.868341+00:00",
+  "security_controls": [
+    {
+      "control": "CMEK Encryption Enforced",
+      "status": "PASSED",
+      "details": "GCS, BigQuery, and AlloyDB bound to Cloud KMS keyrings"
+    },
+    {
+      "control": "Private Google Access Enabled",
+      "status": "PASSED",
+      "details": "VPC Subnet Private Google Access active"
+    },
+    {
+      "control": "Zero Public IP Allocation",
+      "status": "PASSED",
+      "details": "Dataproc nodes and AlloyDB instances have 0 public IPs"
+    },
+    {
+      "control": "TLS 1.3 Transport Encryption",
+      "status": "PASSED",
+      "details": "Enforced in transit"
+    }
+  ]
+}

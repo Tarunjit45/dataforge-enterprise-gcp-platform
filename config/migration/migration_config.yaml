@@ -1,0 +1,36 @@
+# =============================================================================
+# Enterprise MySQL -> AlloyDB Migration Execution Configuration
+# =============================================================================
+
+migration_execution:
+  batch_size: 10000
+  parallel_threads: 4
+  max_retries: 3
+  retry_backoff_seconds: 5
+  checkpoint_dir: "./migration_checkpoints"
+
+cdc_settings:
+  enabled: true
+  provider: "datastream"  # datastream or dms
+  stream_id: "ds-mysql-to-alloydb"
+  binlog_format: "ROW"
+  gtid_enabled: true
+  replication_lag_threshold_seconds: 10
+
+validation:
+  row_count_tolerance_percent: 0.0
+  checksum_sample_percentage: 100.0
+  sample_rows_per_table: 100
+  verify_foreign_keys: true
+  verify_constraints: true
+
+cutover:
+  maintenance_window_minutes: 60
+  max_allowable_lag_seconds: 5
+  lock_timeout_seconds: 30
+  auto_rollback_on_failure: true
+
+rollback:
+  backup_snapshot_prefix: "pre_migration_snap"
+  preserve_target_on_failure: true
+  enable_point_in_time_recovery: true

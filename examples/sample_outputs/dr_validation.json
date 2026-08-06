@@ -1,0 +1,23 @@
+{
+  "environment": "dev",
+  "primary_region": "us-central1",
+  "secondary_region": "us-east4",
+  "simulated_at_utc": "2026-08-06T15:50:57.875690+00:00",
+  "overall_dr_passed": true,
+  "rpo": {
+    "target_minutes": 5.0,
+    "observed_minutes": 2.1,
+    "passed": true
+  },
+  "rto": {
+    "target_minutes": 15.0,
+    "observed_minutes": 8.4,
+    "passed": true
+  },
+  "component_failover_status": {
+    "alloydb_read_pool_promotion": "SUCCESS",
+    "bigquery_dataset_failover": "SUCCESS",
+    "gcs_dual_region_failover": "SUCCESS",
+    "dataproc_secondary_cluster": "SUCCESS"
+  }
+}

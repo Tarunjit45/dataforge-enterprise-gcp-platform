@@ -1,0 +1,10 @@
+{
+  "environment": "prod",
+  "gcp_project_id": "enterprise-data-prod-98765",
+  "region": "us-central1",
+  "log_level": "INFO",
+  "raw_bucket": "gs://enterprise-prod-raw-bronze",
+  "processed_bucket": "gs://enterprise-prod-processed-silver",
+  "quarantine_bucket": "gs://enterprise-prod-quarantine",
+  "bigquery_dataset": "gold_analytics"
+}

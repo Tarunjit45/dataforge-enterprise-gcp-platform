@@ -1,0 +1,112 @@
+# Top-level git ignore rules for Enterprise GCP Data Platform
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.pyo
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IPython
+profile_default/
+ipython_config.py
+
+# environment
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# IDE / Editor settings
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Terraform
+*.tfstate
+*.tfstate.*
+crash.log
+crash.*.log
+*.tfvars
+!*.tfvars.example
+.terraform/
+.terraform.lock.hcl
+
+# GCP Service Account Keys / Local secrets
+*service_account*.json
+*sa_key*.json
+*credentials*.json
+!config/**/*.json
+!examples/**/*.json
+!docs/**/*.json
+!devsecops/**/*.json
+!package.json
+secrets/
+*.pem
+*.key
+
+# Local Data / Logs
+*.log
+logs/
+tmp/
+.spark-warehouse/

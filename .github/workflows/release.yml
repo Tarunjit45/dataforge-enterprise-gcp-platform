@@ -1,0 +1,33 @@
+name: Release & Tagging Pipeline
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    name: Package Release Tag & GitHub Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Stage 1: Checkout Code"
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: "Stage 10: Build Application & Infrastructure Packages"
+        run: |
+          bash scripts/build.sh
+          bash scripts/package.sh prod "${GITHUB_REF_NAME}"
+
+      - name: Create GitHub Release Artifacts
+        uses: softprops/action-gh-release@v1
+        with:
+          files: release_artifacts/prod/*
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,44 @@
+[
+  {
+    "name": "payment_type_key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Surrogate primary key for payment type"
+  },
+  {
+    "name": "payment_type_id",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Payment type business key (1=Credit card, 2=Cash, 3=No charge, 4=Dispute, 5=Unknown, 6=Voided trip)"
+  },
+  {
+    "name": "payment_type_name",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Human-readable payment type description"
+  },
+  {
+    "name": "is_electronic",
+    "type": "BOOLEAN",
+    "mode": "REQUIRED",
+    "description": "Flag indicating digital/electronic settlement"
+  },
+  {
+    "name": "effective_from",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "SCD Type 2 effective start timestamp"
+  },
+  {
+    "name": "effective_to",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE",
+    "description": "SCD Type 2 effective end timestamp (NULL if active)"
+  },
+  {
+    "name": "is_current",
+    "type": "BOOLEAN",
+    "mode": "REQUIRED",
+    "description": "SCD Type 2 active record flag"
+  }
+]

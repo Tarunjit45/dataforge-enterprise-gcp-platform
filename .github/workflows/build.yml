@@ -1,0 +1,23 @@
+name: CI/CD - Artifact Build Placeholder
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Package Application Artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Build Python Package / Wheel Placeholder
+        run: |
+          python -m pip install --upgrade pip build wheel
+          python -m build

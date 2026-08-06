@@ -1,0 +1,36 @@
+# =============================================================================
+# Structured JSON Logging & Error Taxonomy Configuration
+# =============================================================================
+
+logging:
+  format: "json"
+  min_log_level: "INFO"
+  include_timestamp_utc: true
+
+  required_context_fields:
+    - correlation_id
+    - execution_id
+    - batch_id
+    - trace_id
+    - environment
+
+error_categories:
+  DATA_QUALITY_ERROR:
+    severity: "ERROR"
+    code: "ERR_DQ_001"
+    description: "Data Quality assertion failed or threshold breached"
+
+  INFRASTRUCTURE_ERROR:
+    severity: "CRITICAL"
+    code: "ERR_INFRA_002"
+    description: "Cloud resource connection or infrastructure failure"
+
+  MIGRATION_ERROR:
+    severity: "ERROR"
+    code: "ERR_MIG_003"
+    description: "Database migration or schema conversion failure"
+
+  ETL_FAILURE:
+    severity: "CRITICAL"
+    code: "ERR_ETL_004"
+    description: "PySpark ETL transformation or writer error"

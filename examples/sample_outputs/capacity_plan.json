@@ -1,0 +1,22 @@
+{
+  "environment": "dev",
+  "calculated_at_utc": "2026-08-06T15:50:57.884764+00:00",
+  "baseline_monthly_ingestion_tb": 1.5,
+  "monthly_growth_rate_percent": 8.0,
+  "one_year_projection": {
+    "monthly_ingestion_tb": 3.78,
+    "total_storage_capacity_tb": 31.75,
+    "dataproc_vcpu_hours_per_month": 302.2,
+    "bigquery_slots_recommended": 740,
+    "alloydb_recommended_read_pool_nodes": 2,
+    "network_egress_gb_per_month": 125.9
+  },
+  "three_year_projection": {
+    "monthly_ingestion_tb": 23.95,
+    "total_storage_capacity_tb": 603.54,
+    "dataproc_vcpu_hours_per_month": 1916.2,
+    "bigquery_slots_recommended": 1220,
+    "alloydb_recommended_read_pool_nodes": 4,
+    "network_egress_gb_per_month": 798.4
+  }
+}

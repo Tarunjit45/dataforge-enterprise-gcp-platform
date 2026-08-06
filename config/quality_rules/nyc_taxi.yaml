@@ -1,0 +1,30 @@
+# NYC Taxi Data Quality Rule Configuration Definition
+dataset_name: nyc_taxi
+version: "1.0"
+
+rules:
+  VendorID:
+    not_null: true
+    allowed_values:
+      - 1
+      - 2
+
+  passenger_count:
+    min: 1
+    max: 8
+
+  trip_distance:
+    min: 0.01
+    max: 500.0
+
+  total_amount:
+    min: 0.0
+
+  payment_type:
+    allowed_values:
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6

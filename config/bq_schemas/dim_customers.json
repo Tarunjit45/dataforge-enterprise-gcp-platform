@@ -1,0 +1,56 @@
+[
+  {
+    "name": "SK_Customer_Id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Surrogate primary key (UUID / Hash)"
+  },
+  {
+    "name": "NK_Customer_Number",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Natural business customer identifier"
+  },
+  {
+    "name": "First_Name",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Customer first name"
+  },
+  {
+    "name": "Last_Name",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Customer last name"
+  },
+  {
+    "name": "Email",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Customer email address"
+  },
+  {
+    "name": "Customer_Segment",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Customer tier or segment"
+  },
+  {
+    "name": "Effective_Start_Date",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "SCD2 effective start timestamp"
+  },
+  {
+    "name": "Effective_End_Date",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE",
+    "description": "SCD2 effective end timestamp (NULL if current)"
+  },
+  {
+    "name": "Is_Current_Flag",
+    "type": "BOOLEAN",
+    "mode": "REQUIRED",
+    "description": "SCD2 current record indicator flag"
+  }
+]

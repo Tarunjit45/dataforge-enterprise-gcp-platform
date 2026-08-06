@@ -1,0 +1,46 @@
+{
+  "environment": "dev",
+  "validated_at_utc": "2026-08-06T15:50:57.687777+00:00",
+  "overall_architecture_valid": true,
+  "components_validated_count": 7,
+  "validated_components": [
+    {
+      "name": "GCS Bronze/Silver/Gold/Quarantine Buckets",
+      "status": "VERIFIED",
+      "details": "Versioning & Lifecycle Rules Active"
+    },
+    {
+      "name": "IAM Least Privilege & Workload Identity",
+      "status": "VERIFIED",
+      "details": true
+    },
+    {
+      "name": "Dataproc PySpark Cluster",
+      "status": "VERIFIED",
+      "details": "Auto-scaling & Preemptible Workers Configured"
+    },
+    {
+      "name": "BigQuery Datasets & Star Schema Tables",
+      "status": "VERIFIED",
+      "details": "Partitioned on trip_date & Clustered"
+    },
+    {
+      "name": "AlloyDB PostgreSQL Instance & Datastream CDC",
+      "status": "VERIFIED",
+      "details": "HA Cluster & Continuous Replication Active"
+    },
+    {
+      "name": "Secret Manager & KMS CMEK Encryption",
+      "status": "VERIFIED",
+      "details": "CMEK Keyring Bound to Storage/BQ/AlloyDB"
+    },
+    {
+      "name": "Google Cloud Monitoring & Logging Sinks",
+      "status": "VERIFIED",
+      "details": "JSON Logging & Custom Metrics Active"
+    }
+  ],
+  "health_check_summary": "HEALTHY",
+  "security_posture_passed": true,
+  "compliance_score_percent": 100.0
+}

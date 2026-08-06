@@ -1,0 +1,80 @@
+[
+  {
+    "name": "date_key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Surrogate key formatted as YYYYMMDD"
+  },
+  {
+    "name": "full_date",
+    "type": "DATE",
+    "mode": "REQUIRED",
+    "description": "Full calendar date"
+  },
+  {
+    "name": "day_of_week",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Day of week (1=Sunday, 7=Saturday)"
+  },
+  {
+    "name": "day_name",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Day of week name (Monday, Tuesday, etc.)"
+  },
+  {
+    "name": "day_of_month",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Day of month (1-31)"
+  },
+  {
+    "name": "day_of_year",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Day of year (1-366)"
+  },
+  {
+    "name": "week_of_year",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "ISO week number of year (1-53)"
+  },
+  {
+    "name": "month",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Month number (1-12)"
+  },
+  {
+    "name": "month_name",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Month name string (January, February, etc.)"
+  },
+  {
+    "name": "quarter",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Calendar quarter (1-4)"
+  },
+  {
+    "name": "year",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Four-digit calendar year"
+  },
+  {
+    "name": "is_weekend",
+    "type": "BOOLEAN",
+    "mode": "REQUIRED",
+    "description": "Flag indicating weekend day"
+  },
+  {
+    "name": "is_holiday",
+    "type": "BOOLEAN",
+    "mode": "REQUIRED",
+    "description": "Flag indicating public holiday"
+  }
+]

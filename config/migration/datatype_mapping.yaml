@@ -1,0 +1,108 @@
+# =============================================================================
+# Enterprise MySQL to AlloyDB for PostgreSQL Data Type Mapping Matrix
+# =============================================================================
+
+data_type_mappings:
+  # Numeric Types
+  tinyint:
+    target: "SMALLINT"
+    notes: "Converted to SMALLINT; TINYINT(1) maps to BOOLEAN if boolean_conversion is enabled"
+  tinyint_boolean:
+    target: "BOOLEAN"
+    notes: "TINYINT(1) mapped to BOOLEAN flag"
+  smallint:
+    target: "SMALLINT"
+  mediumint:
+    target: "INTEGER"
+  int:
+    target: "INTEGER"
+  integer:
+    target: "INTEGER"
+  bigint:
+    target: "BIGINT"
+  decimal:
+    target: "NUMERIC"
+  numeric:
+    target: "NUMERIC"
+  float:
+    target: "REAL"
+  double:
+    target: "DOUBLE PRECISION"
+  double precision:
+    target: "DOUBLE PRECISION"
+  real:
+    target: "DOUBLE PRECISION"
+  bit:
+    target: "BIT"
+
+  # Auto Increment / Identity
+  auto_increment:
+    target: "GENERATED ALWAYS AS IDENTITY"
+    notes: "MySQL AUTO_INCREMENT translates to ANSI SQL / PostgreSQL Identity column"
+
+  # Character & String Types
+  char:
+    target: "CHAR"
+  varchar:
+    target: "VARCHAR"
+  tinytext:
+    target: "TEXT"
+  text:
+    target: "TEXT"
+  mediumtext:
+    target: "TEXT"
+  longtext:
+    target: "TEXT"
+  enum:
+    target: "VARCHAR(100)"
+    notes: "Converted to VARCHAR with CHECK constraint or domain enum"
+  set:
+    target: "TEXT[]"
+    notes: "Converted to PostgreSQL TEXT array"
+
+  # Binary Types
+  binary:
+    target: "BYTEA"
+  varbinary:
+    target: "BYTEA"
+  tinyblob:
+    target: "BYTEA"
+  blob:
+    target: "BYTEA"
+  mediumblob:
+    target: "BYTEA"
+  longblob:
+    target: "BYTEA"
+
+  # Date & Time Types
+  date:
+    target: "DATE"
+  datetime:
+    target: "TIMESTAMP WITHOUT TIME ZONE"
+  timestamp:
+    target: "TIMESTAMP WITH TIME ZONE"
+  time:
+    target: "TIME WITHOUT TIME ZONE"
+  year:
+    target: "INTEGER"
+
+  # Structured & Spatial Types
+  json:
+    target: "JSONB"
+    notes: "Converted to binary JSONB for fast indexing and query performance"
+  geometry:
+    target: "GEOMETRY"
+    notes: "Requires PostGIS extension on AlloyDB"
+  point:
+    target: "POINT"
+  polygon:
+    target: "POLYGON"
+
+unsupported_mysql_features:
+  - "ENGINE=InnoDB"
+  - "ENGINE=MyISAM"
+  - "ZEROFILL"
+  - "UNSIGNED"
+  - "ON UPDATE CURRENT_TIMESTAMP"
+  - "FULLTEXT INDEX"
+  - "SPATIAL INDEX"

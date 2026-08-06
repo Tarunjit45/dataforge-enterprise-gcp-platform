@@ -1,0 +1,21 @@
+# Sample End-to-End Pipeline Configuration
+
+pipeline:
+  name: "nyc_taxi_ingestion_pipeline"
+  environment: "dev"
+
+source:
+  type: "http_lander"
+  url: "https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_2024-01.parquet"
+  target_gcs_bucket: "raw_bronze"
+
+spark_etl:
+  cluster_name: "dataproc-pyspark-cluster"
+  input_path: "gs://raw_bronze/nyc_taxi/"
+  output_path: "gs://processed_silver/nyc_taxi/"
+  quality_gate_fail_under: 90.0
+
+bigquery_gold:
+  dataset_id: "gold_analytics"
+  fact_table: "fact_trip"
+  partition_field: "trip_date"

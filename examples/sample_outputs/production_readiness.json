@@ -1,0 +1,49 @@
+{
+  "environment": "dev",
+  "overall_readiness_score_percent": 98.42,
+  "production_go_live_status": "APPROVED FOR PRODUCTION \ud83d\ude80",
+  "evaluated_at_utc": "2026-08-06T15:50:57.865374+00:00",
+  "dimensions_evaluated_count": 8,
+  "readiness_scorecard": {
+    "Security": {
+      "score_percent": 100.0,
+      "status": "APPROVED",
+      "comments": "Zero primitive roles, CMEK encryption, Workload Identity active"
+    },
+    "Availability": {
+      "score_percent": 99.9,
+      "status": "APPROVED",
+      "comments": "Target SLA 99.9% supported across primary GCP services"
+    },
+    "Reliability": {
+      "score_percent": 99.5,
+      "status": "APPROVED",
+      "comments": "Automated retries, circuit breakers, and quality gates active"
+    },
+    "Scalability": {
+      "score_percent": 95.0,
+      "status": "APPROVED",
+      "comments": "Dataproc dynamic shuffle, BigQuery slots, AlloyDB read pools"
+    },
+    "Maintainability": {
+      "score_percent": 98.0,
+      "status": "APPROVED",
+      "comments": "Modular architecture, typed exceptions, structured logs"
+    },
+    "Recoverability": {
+      "score_percent": 100.0,
+      "status": "APPROVED",
+      "comments": "AlloyDB backups, BQ snapshots, GCS versioning, 8.4m RTO"
+    },
+    "Cost Efficiency": {
+      "score_percent": 95.0,
+      "status": "APPROVED",
+      "comments": "Partition pruning, clustering, Spot VMs, FinOps monitoring"
+    },
+    "Operational Excellence": {
+      "score_percent": 100.0,
+      "status": "APPROVED",
+      "comments": "Automated CI/CD, DevSecOps gates, OTel tracing, Alerting"
+    }
+  }
+}

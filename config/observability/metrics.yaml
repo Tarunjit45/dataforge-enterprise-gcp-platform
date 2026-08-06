@@ -1,0 +1,64 @@
+# =============================================================================
+# Custom Platform Metrics Configuration
+# =============================================================================
+
+metrics:
+  pipeline_duration_seconds:
+    type: "histogram"
+    description: "Total end-to-end execution duration of ETL pipelines in seconds"
+    unit: "s"
+    labels: ["pipeline_name", "environment", "status"]
+
+  records_processed_total:
+    type: "counter"
+    description: "Total count of records read and processed by ETL engine"
+    unit: "1"
+    labels: ["dataset_name", "entity_name"]
+
+  records_rejected_total:
+    type: "counter"
+    description: "Total count of invalid or quarantined records rejected by Data Quality framework"
+    unit: "1"
+    labels: ["dataset_name", "failed_rule"]
+
+  data_quality_score_percent:
+    type: "gauge"
+    description: "Weighted Data Quality score percentage calculated per batch"
+    unit: "%"
+    labels: ["dataset_name", "batch_id"]
+
+  quarantine_rate_percent:
+    type: "gauge"
+    description: "Percentage ratio of quarantined records to total incoming records"
+    unit: "%"
+    labels: ["dataset_name"]
+
+  spark_execution_time_seconds:
+    type: "histogram"
+    description: "PySpark job execution duration on Dataproc cluster in seconds"
+    unit: "s"
+    labels: ["job_id", "cluster_name"]
+
+  bigquery_load_duration_seconds:
+    type: "histogram"
+    description: "BigQuery load and MERGE query execution duration in seconds"
+    unit: "s"
+    labels: ["dataset_id", "table_id"]
+
+  migration_duration_seconds:
+    type: "histogram"
+    description: "MySQL to AlloyDB migration phase duration in seconds"
+    unit: "s"
+    labels: ["table_name", "phase"]
+
+  cdc_replication_lag_seconds:
+    type: "gauge"
+    description: "Continuous Datastream CDC replication lag behind master in seconds"
+    unit: "s"
+    labels: ["stream_id", "source_db"]
+
+  infrastructure_deployment_duration_seconds:
+    type: "histogram"
+    description: "Terraform IaC deployment duration in seconds"
+    unit: "s"
+    labels: ["environment", "module"]

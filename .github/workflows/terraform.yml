@@ -1,0 +1,42 @@
+name: IaC - Terraform Validation & Plan
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'terraform/**'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'terraform/**'
+
+jobs:
+  terraform_validate_plan:
+    name: Terraform Format, Validate & Plan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: "Stage 1: Checkout Code"
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
+
+      - name: "Stage 7A: Check Terraform Formatting"
+        run: terraform fmt -check -recursive terraform/
+
+      - name: "Stage 7B: Validate Terraform Modules"
+        run: |
+          cd terraform/environments/dev
+          terraform init -backend=false
+          terraform validate
+
+      - name: "Stage 8: Terraform Plan Spec"
+        run: |
+          cd terraform/environments/dev
+          terraform plan -input=false -no-color

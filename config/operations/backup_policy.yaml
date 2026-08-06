@@ -1,0 +1,25 @@
+# =============================================================================
+# Automated Backup & Recovery Policy Configuration
+# =============================================================================
+
+alloydb_backup:
+  enabled: true
+  schedule_cron: "0 2 * * 0" # Weekly Sunday 02:00 UTC
+  retention_count: 4
+  point_in_time_recovery_days: 14
+
+bigquery_backup:
+  snapshot_dataset: "gold_analytics_snapshots"
+  retention_days: 30
+  snapshot_schedule: "DAILY"
+
+gcs_object_versioning:
+  enabled: true
+  buckets:
+    - "raw_bronze"
+    - "processed_silver"
+    - "quarantine"
+
+terraform_state_recovery:
+  versioning_enabled: true
+  state_bucket: "terraform-state-bucket"

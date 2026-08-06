@@ -1,0 +1,34 @@
+# =============================================================================
+# Chaos Engineering Experiments Configuration
+# =============================================================================
+
+scenarios:
+  dataproc_worker_failure:
+    name: "Dataproc Worker Node Failure"
+    target: "dataproc_cluster"
+    graceful_recovery_expected: true
+    max_recovery_seconds: 60.0
+
+  bigquery_api_throttling:
+    name: "BigQuery API Rate Limit Throttling"
+    target: "bigquery_service"
+    graceful_recovery_expected: true
+    max_recovery_seconds: 30.0
+
+  alloydb_master_failover:
+    name: "AlloyDB Master Node Primary Failover"
+    target: "alloydb_cluster"
+    graceful_recovery_expected: true
+    max_recovery_seconds: 45.0
+
+  network_packet_loss:
+    name: "Cross-Subnet Network Latency Spikes"
+    target: "vpc_network"
+    graceful_recovery_expected: true
+    max_recovery_seconds: 15.0
+
+  storage_access_denied:
+    name: "GCS Bucket Temporary IAM Revocation"
+    target: "gcs_storage"
+    graceful_recovery_expected: true
+    max_recovery_seconds: 10.0

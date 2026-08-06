@@ -1,0 +1,10 @@
+{
+  "environment": "dev",
+  "gcp_project_id": "enterprise-data-dev-12345",
+  "region": "us-central1",
+  "log_level": "DEBUG",
+  "raw_bucket": "gs://enterprise-dev-raw-bronze",
+  "processed_bucket": "gs://enterprise-dev-processed-silver",
+  "quarantine_bucket": "gs://enterprise-dev-quarantine",
+  "bigquery_dataset": "dev_analytics"
+}

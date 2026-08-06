@@ -1,0 +1,60 @@
+# =============================================================================
+# Google Cloud Monitoring Alert Policies Configuration
+# =============================================================================
+
+alert_policies:
+  pipeline_failure:
+    display_name: "ETL Pipeline Failure Alert"
+    severity: "CRITICAL"
+    condition: "pipeline_status == 'FAILED'"
+    duration_seconds: 0
+    notification_channels: ["email-sre-oncall", "pagerduty-high-priority"]
+
+  spark_job_failure:
+    display_name: "Dataproc PySpark Job Execution Failure"
+    severity: "CRITICAL"
+    condition: "spark_job_status == 'FAILED'"
+    duration_seconds: 0
+    notification_channels: ["email-sre-oncall", "slack-data-ops"]
+
+  bigquery_load_failure:
+    display_name: "BigQuery Gold Load Failure"
+    severity: "HIGH"
+    condition: "bigquery_job_status == 'FAILED'"
+    duration_seconds: 0
+    notification_channels: ["slack-data-ops"]
+
+  high_cdc_lag:
+    display_name: "Datastream CDC High Replication Lag"
+    severity: "HIGH"
+    condition: "cdc_replication_lag_seconds > 10.0"
+    duration_seconds: 300
+    notification_channels: ["slack-data-ops", "pagerduty-medium-priority"]
+
+  dq_score_below_threshold:
+    display_name: "Data Quality Score Below Threshold (<70%)"
+    severity: "HIGH"
+    condition: "data_quality_score_percent < 70.0"
+    duration_seconds: 0
+    notification_channels: ["slack-data-quality"]
+
+  high_quarantine_ratio:
+    display_name: "High Quarantine Record Ratio (>10%)"
+    severity: "MEDIUM"
+    condition: "quarantine_rate_percent > 10.0"
+    duration_seconds: 60
+    notification_channels: ["slack-data-quality"]
+
+  infrastructure_deployment_failure:
+    display_name: "Terraform Infrastructure Deployment Failure"
+    severity: "CRITICAL"
+    condition: "deploy_status == 'FAILED'"
+    duration_seconds: 0
+    notification_channels: ["slack-devops"]
+
+  high_cost_anomaly:
+    display_name: "Daily GCP Platform Cost Anomaly Alert (>150% baseline)"
+    severity: "MEDIUM"
+    condition: "daily_spend_usd > 150.0"
+    duration_seconds: 86400
+    notification_channels: ["email-finops", "slack-finops"]

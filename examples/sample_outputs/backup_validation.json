@@ -1,0 +1,53 @@
+{
+  "environment": "dev",
+  "overall_status": "PASSED",
+  "validated_at_utc": "2026-08-06T15:50:57.871209+00:00",
+  "validations": [
+    {
+      "target": "AlloyDB Backup Restoration",
+      "status": "PASSED",
+      "duration_seconds": 12.5
+    },
+    {
+      "target": "BigQuery Snapshot Restoration",
+      "status": "PASSED",
+      "duration_seconds": 4.2
+    },
+    {
+      "target": "GCS Object Version Recovery",
+      "status": "PASSED",
+      "duration_seconds": 1.1
+    },
+    {
+      "target": "Terraform State Rollback Recovery",
+      "status": "PASSED",
+      "duration_seconds": 0.8
+    }
+  ],
+  "backup_policy_config": {
+    "environment": "dev",
+    "checked_at_utc": "2026-08-06T15:50:57.871209+00:00",
+    "alloydb_automated_backups": {
+      "status": "ACTIVE",
+      "retention_count": 4,
+      "schedule": "Weekly Sunday 02:00 UTC"
+    },
+    "bigquery_snapshots": {
+      "status": "ACTIVE",
+      "retention_days": 30,
+      "dataset": "gold_analytics_snapshots"
+    },
+    "gcs_versioning": {
+      "status": "ENABLED",
+      "buckets": [
+        "raw_bronze",
+        "processed_silver",
+        "quarantine"
+      ]
+    },
+    "terraform_state_versioning": {
+      "status": "ENABLED",
+      "bucket": "terraform-state-bucket"
+    }
+  }
+}

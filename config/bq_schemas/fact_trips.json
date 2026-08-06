@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Trip_Id",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Unique trip surrogate primary key"
+  },
+  {
+    "name": "VendorID",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "TLC technology provider ID (Cluster key)"
+  },
+  {
+    "name": "tpep_pickup_datetime",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "Trip pickup timestamp (Partition key)"
+  },
+  {
+    "name": "tpep_dropoff_datetime",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "Trip dropoff timestamp"
+  },
+  {
+    "name": "passenger_count",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Passenger count"
+  },
+  {
+    "name": "trip_distance",
+    "type": "FLOAT",
+    "mode": "REQUIRED",
+    "description": "Trip distance in miles"
+  },
+  {
+    "name": "RatecodeID",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "Rate code ID"
+  },
+  {
+    "name": "PULocationID",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "TLC pickup location zone"
+  },
+  {
+    "name": "DOLocationID",
+    "type": "INTEGER",
+    "mode": "NULLABLE",
+    "description": "TLC dropoff location zone"
+  },
+  {
+    "name": "payment_type",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Payment type ID (Cluster key)"
+  },
+  {
+    "name": "fare_amount",
+    "type": "FLOAT",
+    "mode": "REQUIRED",
+    "description": "Fare amount"
+  },
+  {
+    "name": "tip_amount",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Tip amount"
+  },
+  {
+    "name": "total_amount",
+    "type": "FLOAT",
+    "mode": "REQUIRED",
+    "description": "Total charged amount"
+  },
+  {
+    "name": "trip_duration_minutes",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Derived trip duration in minutes"
+  },
+  {
+    "name": "tip_percentage",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Derived tip percentage"
+  },
+  {
+    "name": "average_speed_mph",
+    "type": "FLOAT",
+    "mode": "NULLABLE",
+    "description": "Derived average speed in mph"
+  },
+  {
+    "name": "weekend_flag",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Derived weekend flag"
+  },
+  {
+    "name": "peak_hour_flag",
+    "type": "BOOLEAN",
+    "mode": "NULLABLE",
+    "description": "Derived peak hour flag"
+  }
+]

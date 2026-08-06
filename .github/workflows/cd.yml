@@ -1,0 +1,61 @@
+name: CD - Continuous Deployment Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target Deployment Environment'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+jobs:
+  deploy:
+    name: Continuous Deployment & Automated Rollback
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: "Stage 1: Checkout Code"
+        uses: actions/checkout@v4
+
+      - name: Authenticate to GCP via Workload Identity Federation
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+
+      - name: Setup Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.0
+
+      - name: "Stage 12 and 13: Deploy Infrastructure & Applications"
+        id: deploy_step
+        run: |
+          ENV_NAME="${{ inputs.environment || 'dev' }}"
+          bash scripts/deploy.sh "${ENV_NAME}"
+
+      - name: "Stage 14: Infrastructure & Application Smoke Tests"
+        id: smoke_tests_step
+        run: |
+          ENV_NAME="${{ inputs.environment || 'dev' }}"
+          bash scripts/smoke_tests.sh "${ENV_NAME}" "${{ secrets.GCP_PROJECT_ID }}" "us-central1"
+
+      - name: "Stage 15: Automatic Rollback on Failure"
+        if: failure() && (steps.deploy_step.outcome == 'failure' || steps.smoke_tests_step.outcome == 'failure')
+        run: |
+          ENV_NAME="${{ inputs.environment || 'dev' }}"
+          echo "Deployment or Smoke Tests failed! Executing automated rollback..."
+          bash scripts/rollback.sh "${ENV_NAME}"

@@ -1,0 +1,42 @@
+# =============================================================================
+# Enterprise MySQL -> AlloyDB Object and Schema Mapping Configuration
+# =============================================================================
+
+migration_mapping:
+  source_database: "production_db"
+  target_database: "alloydb_production"
+  target_schema: "public"
+
+  schema_transformations:
+    quote_identifiers: false
+    lowercase_table_names: true
+    convert_tinyint_1_to_boolean: true
+    convert_auto_increment_to_identity: true
+    use_jsonb_for_json: true
+
+  table_mappings:
+    customers:
+      target_table: "dim_customer"
+      column_overrides:
+        id: "customer_id"
+        created_at: "effective_from"
+
+    vendors:
+      target_table: "dim_vendor"
+      column_overrides:
+        id: "vendor_id"
+
+    locations:
+      target_table: "dim_location"
+      column_overrides:
+        id: "location_id"
+
+    trips:
+      target_table: "fact_taxi_trips"
+      column_overrides:
+        id: "trip_id"
+
+  excluded_tables:
+    - "mysql_sys_logs"
+    - "temp_staging_*"
+    - "schema_migrations"

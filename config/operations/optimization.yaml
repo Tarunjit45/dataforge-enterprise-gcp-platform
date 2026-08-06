@@ -1,0 +1,12 @@
+# =============================================================================
+# Platform Cost & Performance Optimization Rules
+# =============================================================================
+
+recommendations:
+  partition_pruning_enforcement: true
+  use_preemptible_spot_vms: true
+  gcs_lifecycle_tiering:
+    raw_bucket_nearline_days: 30
+    processed_bucket_coldline_days: 90
+  bigquery_slot_commitments: "AUTO_SCALE"
+  alloydb_read_pool_scaling: "SCHEDULED_SCALE_DOWN"

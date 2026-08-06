@@ -1,0 +1,82 @@
+# =============================================================================
+# Cloud Monitoring Operational & Executive Dashboards Spec
+# =============================================================================
+
+dashboards:
+  executive_dashboard:
+    display_name: "Executive Platform & SLA Dashboard"
+    refresh_interval: "300s"
+    widgets:
+      - title: "Platform Availability SLO (%)"
+        type: "scorecard"
+        metric: "sla_availability_percent"
+      - title: "Data Freshness SLA (Minutes)"
+        type: "scorecard"
+        metric: "data_freshness_minutes"
+      - title: "Total Records Ingested & Cleansed"
+        type: "xy_chart"
+        metric: "records_processed_total"
+      - title: "Estimated Monthly Spend (USD)"
+        type: "scorecard"
+        metric: "estimated_monthly_spend_usd"
+
+  operations_dashboard:
+    display_name: "Operations & Incident Response Dashboard"
+    refresh_interval: "60s"
+    widgets:
+      - title: "Active System Health Status"
+        type: "scorecard"
+        metric: "health_check_status"
+      - title: "Pipeline Execution Failures"
+        type: "xy_chart"
+        metric: "pipeline_failure_count"
+      - title: "Active Alert Policies Fired"
+        type: "scorecard"
+        metric: "alerts_fired_count"
+
+  etl_dashboard:
+    display_name: "PySpark ETL & Data Quality Dashboard"
+    refresh_interval: "60s"
+    widgets:
+      - title: "ETL Batch Execution Duration"
+        type: "xy_chart"
+        metric: "pipeline_duration_seconds"
+      - title: "Data Quality Score Trend (%)"
+        type: "xy_chart"
+        metric: "data_quality_score_percent"
+      - title: "Quarantine Record Volumes"
+        type: "xy_chart"
+        metric: "records_rejected_total"
+
+  migration_dashboard:
+    display_name: "MySQL to AlloyDB Migration & CDC Dashboard"
+    refresh_interval: "30s"
+    widgets:
+      - title: "Datastream CDC Replication Lag (Seconds)"
+        type: "xy_chart"
+        metric: "cdc_replication_lag_seconds"
+      - title: "Migrated Tables Progress"
+        type: "scorecard"
+        metric: "migrated_tables_count"
+
+  infrastructure_dashboard:
+    display_name: "GCP Infrastructure & Resource Utilization Dashboard"
+    refresh_interval: "60s"
+    widgets:
+      - title: "Dataproc CPU & Memory Utilization"
+        type: "xy_chart"
+        metric: "dataproc_cpu_usage"
+      - title: "BigQuery Slots Consumed"
+        type: "xy_chart"
+        metric: "bigquery_slots_allocated"
+
+  cost_dashboard:
+    display_name: "GCP FinOps Cost Observability Dashboard"
+    refresh_interval: "3600s"
+    widgets:
+      - title: "Daily Spend by Service (BigQuery, Dataproc, GCS, AlloyDB)"
+        type: "stacked_bar"
+        metric: "daily_spend_usd"
+      - title: "BigQuery Bytes Scanned vs Slot Usage"
+        type: "xy_chart"
+        metric: "bigquery_query_bytes"

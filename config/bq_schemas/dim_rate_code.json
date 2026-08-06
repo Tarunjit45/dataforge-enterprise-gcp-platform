@@ -1,0 +1,44 @@
+[
+  {
+    "name": "rate_code_key",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Surrogate primary key for rate code"
+  },
+  {
+    "name": "rate_code_id",
+    "type": "INTEGER",
+    "mode": "REQUIRED",
+    "description": "Rate code business key (1=Standard, 2=JFK, 3=Newark, 4=Nassau/Westchester, 5=Negotiated, 6=Group ride)"
+  },
+  {
+    "name": "rate_code_name",
+    "type": "STRING",
+    "mode": "REQUIRED",
+    "description": "Rate code tier name"
+  },
+  {
+    "name": "description",
+    "type": "STRING",
+    "mode": "NULLABLE",
+    "description": "Detailed policy description"
+  },
+  {
+    "name": "effective_from",
+    "type": "TIMESTAMP",
+    "mode": "REQUIRED",
+    "description": "SCD Type 2 effective start timestamp"
+  },
+  {
+    "name": "effective_to",
+    "type": "TIMESTAMP",
+    "mode": "NULLABLE",
+    "description": "SCD Type 2 effective end timestamp (NULL if active)"
+  },
+  {
+    "name": "is_current",
+    "type": "BOOLEAN",
+    "mode": "REQUIRED",
+    "description": "SCD Type 2 active record flag"
+  }
+]

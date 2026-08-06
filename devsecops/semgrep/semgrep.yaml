@@ -1,0 +1,19 @@
+# =============================================================================
+# Semgrep Static Analysis Security Rules Configuration
+# =============================================================================
+
+rules:
+  - id: hardcoded-secret-key
+    patterns:
+      - pattern: $KEY = "..."
+      - pattern-regex: (?:api[_-]?key|secret|password|auth[_-]?token)\s*=\s*['"][a-zA-Z0-9_\-]{16,}['"]
+    message: "Hardcoded secret or credential detected in source code."
+    severity: ERROR
+    languages: [python, yaml, json]
+
+  - id: insecure-sql-formatting
+    patterns:
+      - pattern: f"SELECT ... { ... }"
+    message: "Potential SQL injection vulnerability via Python f-string query formatting."
+    severity: WARNING
+    languages: [python]

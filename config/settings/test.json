@@ -1,0 +1,10 @@
+{
+  "environment": "test",
+  "gcp_project_id": "enterprise-data-test-67890",
+  "region": "us-central1",
+  "log_level": "INFO",
+  "raw_bucket": "gs://enterprise-test-raw-bronze",
+  "processed_bucket": "gs://enterprise-test-processed-silver",
+  "quarantine_bucket": "gs://enterprise-test-quarantine",
+  "bigquery_dataset": "test_analytics"
+}

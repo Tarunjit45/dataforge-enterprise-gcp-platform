@@ -1,0 +1,17 @@
+# Generic Dataset Quality Rule Configuration Definition
+dataset_name: generic_dataset
+version: "1.0"
+
+rules:
+  id:
+    not_null: true
+    unique: true
+
+  amount:
+    min: 0.0
+
+  status:
+    allowed_values:
+      - ACTIVE
+      - INACTIVE
+      - PENDING

@@ -1,0 +1,45 @@
+{
+  "environment": "dev",
+  "overall_benchmark_passed": true,
+  "benchmarked_at_utc": "2026-08-06T15:50:57.880601+00:00",
+  "metrics": {
+    "etl_throughput_records_per_sec": 12500.0,
+    "spark_execution_time_seconds": 85.0,
+    "bigquery_load_time_seconds": 18.5,
+    "migration_throughput_records_per_sec": 6200.0,
+    "cdc_replication_lag_seconds": 1.2,
+    "pipeline_end_to_end_duration_seconds": 210.0
+  },
+  "sla_evaluations": {
+    "etl_throughput_records_per_sec": {
+      "observed": 12500.0,
+      "target": 10000.0,
+      "passed": true
+    },
+    "spark_execution_time_seconds": {
+      "observed": 85.0,
+      "target": 120.0,
+      "passed": true
+    },
+    "bigquery_load_time_seconds": {
+      "observed": 18.5,
+      "target": 30.0,
+      "passed": true
+    },
+    "migration_throughput_records_per_sec": {
+      "observed": 6200.0,
+      "target": 5000.0,
+      "passed": true
+    },
+    "cdc_replication_lag_seconds": {
+      "observed": 1.2,
+      "target": 5.0,
+      "passed": true
+    },
+    "pipeline_end_to_end_duration_seconds": {
+      "observed": 210.0,
+      "target": 300.0,
+      "passed": true
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "environment": "dev",
+  "executed_at_utc": "2026-08-06T15:50:57.862452+00:00",
+  "pipeline_name": "NYC_Taxi_Trip_Data_ETL_And_Migration",
+  "execution_metrics": {
+    "total_runtime_seconds": 0.172,
+    "etl_runtime_seconds": 0.121,
+    "spark_runtime_seconds": 0.08,
+    "bigquery_load_seconds": 0.041,
+    "records_ingested": 12500,
+    "records_processed": 12500,
+    "records_rejected": 250,
+    "data_quality_score_percent": 98.0,
+    "quarantine_rate_percent": 2.0,
+    "throughput_records_per_sec": 72674.4
+  },
+  "migration_status": "IN_PROGRESS",
+  "cost_estimate_usd": {
+    "bigquery_query_cost": 0.31,
+    "dataproc_compute_cost": 0.02,
+    "cloud_storage_cost": 0.01,
+    "alloydb_instance_cost": 0.0,
+    "network_egress_cost": 0.12,
+    "estimated_daily_total": 0.47
+  }
+}

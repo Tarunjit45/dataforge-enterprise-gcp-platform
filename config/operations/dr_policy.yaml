@@ -1,0 +1,15 @@
+# =============================================================================
+# Multi-Region Disaster Recovery (DR) Policy Configuration
+# =============================================================================
+
+primary_region: "us-central1"
+secondary_region: "us-east4"
+
+rpo_target_minutes: 5.0 # Recovery Point Objective (< 5 minutes)
+rto_target_minutes: 15.0 # Recovery Time Objective (< 15 minutes)
+
+failover_strategy:
+  alloydb: "cross_region_read_pool_promotion"
+  bigquery: "cross_region_dataset_replication"
+  gcs: "dual_region_bucket"
+  dataproc: "ephemeral_cluster_recreation"

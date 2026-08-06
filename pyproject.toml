@@ -1,0 +1,106 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gcp-enterprise-data-platform"
+version = "0.1.0"
+description = "Production-ready Data Migration & ETL Platform on Google Cloud Platform"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "Apache-2.0"}
+authors = [
+    {name = "Enterprise Data Engineering Team", email = "data-eng@enterprise.com"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
+
+dependencies = [
+    "pydantic>=2.7.0",
+    "google-cloud-storage>=2.16.0",
+    "google-cloud-bigquery>=3.20.0",
+    "google-cloud-logging>=3.10.0",
+    "google-cloud-secret-manager>=2.20.0",
+    "pyspark>=3.5.0",
+    "psycopg2-binary>=2.9.9",
+    "mysql-connector-python>=8.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.1.0",
+    "pytest-cov>=5.0.0",
+    "pytest-mock>=3.14.0",
+    "chispa>=0.4.0",
+    "black>=24.4.0",
+    "isort>=5.13.0",
+    "flake8>=7.0.0",
+    "mypy>=1.10.0",
+    "bandit>=1.7.8",
+    "pre-commit>=3.7.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py311']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | terraform
+)/
+'''
+
+[tool.isort]
+profile = "black"
+line_length = 100
+multi_line_output = 3
+include_trailing_comma = true
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+follow_imports = "normal"
+ignore_missing_imports = true
+
+[tool.bandit]
+targets = ["src"]
+exclude_dirs = ["tests", "terraform", "scripts"]
+skips = ["B101"]
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "-v --strict-markers --cov=src --cov-report=term-missing --cov-report=html"
+markers = [
+    "unit: Quick isolated unit tests",
+    "integration: Integration tests interacting with cloud components or emulators",
+]

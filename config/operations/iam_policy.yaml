@@ -1,0 +1,30 @@
+# =============================================================================
+# IAM Least Privilege & Service Account Security Policy
+# =============================================================================
+
+disallowed_primitive_roles:
+  - "roles/owner"
+  - "roles/editor"
+  - "roles/viewer"
+
+required_service_accounts:
+  sa_dataproc_etl:
+    roles:
+      - "roles/dataproc.worker"
+      - "roles/storage.objectAdmin"
+  sa_bigquery_loader:
+    roles:
+      - "roles/bigquery.dataEditor"
+      - "roles/bigquery.jobUser"
+  sa_alloydb_migration:
+    roles:
+      - "roles/alloydb.client"
+      - "roles/datastream.admin"
+  sa_github_actions_cd:
+    roles:
+      - "roles/iam.serviceAccountTokenCreator"
+      - "roles/resourcemanager.projectIamAdmin"
+
+workload_identity:
+  enforce_workload_identity: true
+  provider_format: "projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/providers/{provider_id}"
