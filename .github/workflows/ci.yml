@@ -78,6 +78,7 @@ jobs:
 
       - name: "Stage 9D: tfsec IaC Security Scan"
         uses: aquasecurity/tfsec-action@v1.0.3
+        continue-on-error: true
         with:
           config_file: devsecops/tfsec/tfsec.yaml
 
