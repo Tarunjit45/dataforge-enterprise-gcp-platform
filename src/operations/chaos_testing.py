@@ -1,9 +1,9 @@
 """Chaos Engineering Fault Injection & Resiliency Verification Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -47,7 +47,9 @@ class ChaosTestingEngine:
             "recovery_duration_seconds": recovery_duration_seconds,
             "executed_at_utc": datetime.now(timezone.utc).isoformat(),
         }
-        logger.info(f"Chaos experiment [{experiment_name}] complete: STATUS={res['status']} ({recovery_duration_seconds}s)")
+        logger.info(
+            f"Chaos experiment [{experiment_name}] complete: STATUS={res['status']} ({recovery_duration_seconds}s)"
+        )
         return res
 
     def run_all_experiments(self) -> Dict[str, Any]:
@@ -67,5 +69,7 @@ class ChaosTestingEngine:
             "executed_at_utc": datetime.now(timezone.utc).isoformat(),
             "experiments": results,
         }
-        logger.info(f"Chaos Testing Suite complete. Resiliency Status: {suite_report['overall_resiliency_status']}")
+        logger.info(
+            f"Chaos Testing Suite complete. Resiliency Status: {suite_report['overall_resiliency_status']}"
+        )
         return suite_report

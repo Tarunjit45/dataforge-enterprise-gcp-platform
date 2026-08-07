@@ -1,8 +1,9 @@
 """Configuration-driven Data Quality Engine orchestrator."""
 
-from pathlib import Path
 import time
+from pathlib import Path
 from typing import Any, Dict, List, Optional
+
 from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType
 
@@ -120,7 +121,9 @@ class DataQualityEngine:
         total_records = df.count()
         rule_results: List[RuleResult] = []
 
-        logger.info(f"Running Data Quality Engine checks for dataset '{dataset_name}' ({total_records} records)...")
+        logger.info(
+            f"Running Data Quality Engine checks for dataset '{dataset_name}' ({total_records} records)..."
+        )
 
         for rule in self.rules:
             result = rule.evaluate(df)

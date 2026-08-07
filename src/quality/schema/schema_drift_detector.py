@@ -1,9 +1,10 @@
 """Schema drift detection engine."""
 
+import json
 from dataclasses import asdict, dataclass, field
 from datetime import datetime, timezone
-import json
 from typing import Any, Dict, List
+
 from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType
 
@@ -22,16 +23,16 @@ class SchemaDriftReport:
     new_columns: List[str] = field(default_factory=list)
     type_changes: List[str] = field(default_factory=list)
     order_changed: bool = False
-    generated_at_utc: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    generated_at_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class SchemaDriftDetector:
     """Engine for detecting schema changes against historical baseline contracts."""
 
     @staticmethod
-    def detect_drift(df: DataFrame, baseline_schema: StructType, dataset_name: str = "dataset") -> SchemaDriftReport:
+    def detect_drift(
+        df: DataFrame, baseline_schema: StructType, dataset_name: str = "dataset"
+    ) -> SchemaDriftReport:
         """Compare PySpark DataFrame schema against baseline contract.
 
         Args:

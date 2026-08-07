@@ -1,7 +1,9 @@
 """Unit tests for structured logging framework."""
 
 import logging
+
 import pytest
+
 from src.common.logging.logger import get_logger, set_correlation_id
 
 

@@ -1,7 +1,7 @@
 """Unit tests for Enterprise Data Ingestion Framework."""
 
-from datetime import datetime, timezone
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -56,7 +56,9 @@ def test_metadata_and_manifest_creation(tmp_path: Path):
     assert metadata["file_size_bytes"] == 10
     assert metadata["context"]["test"] is True
 
-    manifest = MetadataGenerator.create_manifest(payload, "gs://raw-bucket/blob", "exec-123", "SUCCESS")
+    manifest = MetadataGenerator.create_manifest(
+        payload, "gs://raw-bucket/blob", "exec-123", "SUCCESS"
+    )
     assert manifest["execution_id"] == "exec-123"
     assert manifest["status"] == "SUCCESS"
     assert manifest["gcs_payload_uri"] == "gs://raw-bucket/blob"

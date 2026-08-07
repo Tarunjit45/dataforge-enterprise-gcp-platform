@@ -1,7 +1,9 @@
 """Unit tests for centralized configuration loader."""
 
 import os
+
 import pytest
+
 from src.common.config.settings import PlatformConfig, get_settings
 from src.common.exceptions.base import ConfigurationError
 

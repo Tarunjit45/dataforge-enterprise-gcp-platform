@@ -46,9 +46,7 @@ class ProfileResult:
     duplicate_rows: int
     duplicate_percentage: float
     column_profiles: Dict[str, ColumnProfile] = field(default_factory=dict)
-    generated_at_utc: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    generated_at_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 @dataclass
@@ -76,6 +74,4 @@ class QualityResult:
     profile: Optional[ProfileResult] = None
     score: Optional[QualityScore] = None
     processing_duration_seconds: float = 0.0
-    generated_at_utc: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    generated_at_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())

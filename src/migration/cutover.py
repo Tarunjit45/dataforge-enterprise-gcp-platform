@@ -55,7 +55,9 @@ class CutoverOrchestrator:
         if checklist["overall_checklist_passed"]:
             logger.info("Pre-Cutover Checklist PASSED. Proceeding to cutover window.")
         else:
-            logger.error(f"Pre-Cutover Checklist FAILED! ValidationsPassed: {all_validations_passed}, LagPassed: {lag_passed}.")
+            logger.error(
+                f"Pre-Cutover Checklist FAILED! ValidationsPassed: {all_validations_passed}, LagPassed: {lag_passed}."
+            )
 
         return checklist
 
@@ -88,7 +90,9 @@ class CutoverOrchestrator:
             status.status = MigrationStatus.FAILED
             logger.error(f"Cutover [{cutover_id}] aborted due to checklist failure.")
             self.generate_cutover_report(status, checklist, output_dir=output_dir)
-            raise PipelineError(f"Cutover [{cutover_id}] failed pre-cutover checklist verification.")
+            raise PipelineError(
+                f"Cutover [{cutover_id}] failed pre-cutover checklist verification."
+            )
 
         # 2. Activate Application Maintenance Mode
         logger.info("Step 1: Enabling Application Maintenance Mode (read-only locks)...")
@@ -99,12 +103,16 @@ class CutoverOrchestrator:
         status.final_sync_lag_seconds = 0.0  # Lag reaches 0 upon maintenance lock
 
         # 4. Switch Application Database Connection / Route to AlloyDB
-        logger.info(f"Step 3: Switching Application Connection String -> AlloyDB ({self.settings.gcp_project_id}-alloydb)...")
+        logger.info(
+            f"Step 3: Switching Application Connection String -> AlloyDB ({self.settings.gcp_project_id}-alloydb)..."
+        )
         status.application_switched = True
         status.status = MigrationStatus.CUTOVER_SUCCESS
         status.completed_at = datetime.now(timezone.utc)
 
-        logger.info(f"Production Cutover [{cutover_id}] COMPLETED SUCCESSFULLY! AlloyDB is now primary database.")
+        logger.info(
+            f"Production Cutover [{cutover_id}] COMPLETED SUCCESSFULLY! AlloyDB is now primary database."
+        )
 
         self.generate_cutover_report(status, checklist, output_dir=output_dir)
         return status

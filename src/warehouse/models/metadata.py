@@ -1,7 +1,8 @@
 """Warehouse Load Metadata & Lineage Models."""
 
 from datetime import datetime, timezone
-from typing import Dict, Any, Optional
+from typing import Any, Dict, Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -11,11 +12,15 @@ class WarehouseLoadMetadata(BaseModel):
     batch_id: str = Field(..., description="Unique ETL batch ID")
     source_execution_id: str = Field(..., description="Phase 7 source pipeline execution ID")
     source_manifest: str = Field(..., description="URI of the processed source manifest file")
-    data_quality_score: float = Field(..., description="Data Quality score percentage computed by Phase 7 DQ framework")
+    data_quality_score: float = Field(
+        ..., description="Data Quality score percentage computed by Phase 7 DQ framework"
+    )
     records_read: int = Field(default=0, ge=0, description="Total Silver records read")
     records_inserted: int = Field(default=0, ge=0, description="Total records inserted into Gold")
     records_updated: int = Field(default=0, ge=0, description="Total records updated (MERGE/SCD)")
-    records_rejected: int = Field(default=0, ge=0, description="Total records rejected due to DQ score threshold")
+    records_rejected: int = Field(
+        default=0, ge=0, description="Total records rejected due to DQ score threshold"
+    )
     load_timestamp: datetime = Field(
         default_factory=lambda: datetime.now(timezone.utc),
         description="Timestamp when load completed in UTC",

@@ -1,6 +1,7 @@
 """Prometheus Exposition Format Metric Exporter Engine."""
 
 from typing import Any, Dict
+
 from src.observability.metrics import MetricsCollector
 
 

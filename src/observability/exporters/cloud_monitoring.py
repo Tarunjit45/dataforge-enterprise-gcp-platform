@@ -1,6 +1,7 @@
 """GCP Cloud Monitoring Metric Exporter Engine."""
 
 from typing import Any, Dict, Optional
+
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
 
@@ -14,7 +15,9 @@ class CloudMonitoringExporter:
         self.settings = get_settings()
         self.client = monitoring_client
 
-    def export_metric(self, metric_name: str, value: float, labels: Optional[Dict[str, str]] = None) -> bool:
+    def export_metric(
+        self, metric_name: str, value: float, labels: Optional[Dict[str, str]] = None
+    ) -> bool:
         """Submit a metric data point to GCP Cloud Monitoring API.
 
         Args:

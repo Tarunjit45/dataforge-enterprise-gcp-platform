@@ -2,21 +2,22 @@
 
 import json
 from pathlib import Path
+
 import pytest
 
 from src.observability.alerting import AlertEvaluator
 from src.observability.cost_monitor import CostObservabilityEngine
 from src.observability.dashboards import DashboardGenerator
+from src.observability.exporters.cloud_logging import CloudLoggingExporter
+from src.observability.exporters.cloud_monitoring import CloudMonitoringExporter
+from src.observability.exporters.opentelemetry import OpenTelemetryExporter
+from src.observability.exporters.prometheus import PrometheusExporter
 from src.observability.health_checks import ServiceHealthChecker
 from src.observability.logging import TelemetryLogger
 from src.observability.metrics import MetricsCollector
 from src.observability.sla import SLACalculator
 from src.observability.telemetry import TelemetryManager
 from src.observability.tracing import OpenTelemetryTracer
-from src.observability.exporters.cloud_monitoring import CloudMonitoringExporter
-from src.observability.exporters.cloud_logging import CloudLoggingExporter
-from src.observability.exporters.prometheus import PrometheusExporter
-from src.observability.exporters.opentelemetry import OpenTelemetryExporter
 
 
 @pytest.mark.unit
@@ -124,7 +125,9 @@ def test_sla_calculator_and_artifact(tmp_path):
 def test_cost_observability_and_artifact(tmp_path):
     """Verify cost calculation breakdown and cost_report.json generation."""
     cost_eng = CostObservabilityEngine()
-    cost_data = cost_eng.calculate_cost_estimate(bigquery_tb_scanned=10.0, dataproc_vcpu_hours=200.0)
+    cost_data = cost_eng.calculate_cost_estimate(
+        bigquery_tb_scanned=10.0, dataproc_vcpu_hours=200.0
+    )
 
     assert cost_data["cost_breakdown_usd"]["bigquery_query_cost"] == 62.5
     assert cost_data["estimated_monthly_spend_usd"] > 0

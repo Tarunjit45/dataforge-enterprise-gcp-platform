@@ -1,9 +1,9 @@
 """Service Level Agreement (SLA) & SLO Error Budget Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -41,7 +41,11 @@ class SLACalculator:
         target_availability = 99.9
         error_budget_total = 100.0 - target_availability  # 0.1% total error budget
         error_budget_consumed = max(0.0, round(target_availability - availability_pct, 2))
-        error_budget_remaining_pct = max(0.0, round(100.0 - (error_budget_consumed / error_budget_total * 100.0), 2)) if error_budget_total > 0 else 100.0
+        error_budget_remaining_pct = (
+            max(0.0, round(100.0 - (error_budget_consumed / error_budget_total * 100.0), 2))
+            if error_budget_total > 0
+            else 100.0
+        )
 
         slo_report = {
             "environment": self.settings.environment,
@@ -78,7 +82,9 @@ class SLACalculator:
             },
         }
 
-        logger.info(f"SLA Calculation: Availability={availability_pct}%, Freshness={data_freshness_minutes}m, ErrorBudgetRemaining={error_budget_remaining_pct}%")
+        logger.info(
+            f"SLA Calculation: Availability={availability_pct}%, Freshness={data_freshness_minutes}m, ErrorBudgetRemaining={error_budget_remaining_pct}%"
+        )
         return slo_report
 
     def generate_sla_report(self, output_dir: str = ".") -> str:

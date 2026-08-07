@@ -2,6 +2,7 @@
 
 import json
 from pathlib import Path
+
 import pytest
 
 pyspark = pytest.importorskip("pyspark")
@@ -25,8 +26,12 @@ from pyspark.sql.types import DoubleType, IntegerType, StringType, StructField, 
 @pytest.fixture(scope="session")
 def spark() -> SparkSession:
     """Fixture providing local SparkSession."""
-    from src.etl.spark_session import get_spark_session
-    return get_spark_session("UT-QualityEngine")
+    try:
+        from src.etl.spark_session import get_spark_session
+
+        return get_spark_session("UT-QualityEngine")
+    except Exception as e:
+        pytest.skip(f"PySpark Java Gateway unavailable: {e}")
 
 
 @pytest.mark.unit

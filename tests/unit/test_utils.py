@@ -1,6 +1,7 @@
 """Unit tests for utility scaffolding."""
 
 import pytest
+
 from src.common.utils.cloud_utils import CloudStorageUtilsScaffold
 from src.common.utils.date_utils import DateUtilsScaffold
 from src.common.utils.retry_utils import retry_on_exception

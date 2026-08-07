@@ -1,8 +1,8 @@
 """HTTP/REST API base connector implementation."""
 
+import urllib.request
 from datetime import datetime
 from pathlib import Path
-import urllib.request
 
 from src.common.exceptions.base import ValidationError
 from src.common.logging.logger import get_logger

@@ -1,7 +1,7 @@
 """Main PySpark ETL Job: Transforms Bronze Raw Parquet into Silver Cleansed Parquet."""
 
-from pathlib import Path
 import time
+from pathlib import Path
 from typing import Optional
 
 from src.common.config.settings import get_settings
@@ -41,7 +41,9 @@ def run_bronze_to_silver_job(
     execution_id = manifest.get("execution_id", "local-run")
     set_correlation_id(execution_id)
 
-    payload_uri = manifest.get("gcs_payload_uri") or str(manifest_path.parent / manifest.get("payload_filename", ""))
+    payload_uri = manifest.get("gcs_payload_uri") or str(
+        manifest_path.parent / manifest.get("payload_filename", "")
+    )
     source_name = manifest.get("source", "nyc_tlc")
     entity_name = manifest.get("entity", "yellow_taxi")
 

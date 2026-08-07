@@ -1,11 +1,11 @@
 """Enterprise Data Ingestion Pipeline Runner."""
 
-from datetime import datetime, timezone
-from typing import Any, Dict
-from pathlib import Path
+import json
 import time
 import uuid
-import json
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Dict
 
 try:
     from google.cloud import storage
@@ -42,7 +42,9 @@ class IngestionPipeline:
     def _build_gcs_partition_path(self, target_date: datetime, filename: str) -> str:
         """Construct standard partition path: raw/<source>/<entity>/YYYY/MM/DD/<filename>"""
         date_path = target_date.strftime("%Y/%m/%d")
-        return f"raw/{self.connector.source_name}/{self.connector.entity_name}/{date_path}/{filename}"
+        return (
+            f"raw/{self.connector.source_name}/{self.connector.entity_name}/{date_path}/{filename}"
+        )
 
     def upload_to_gcs(self, bucket_name: str, destination_blob: str, local_path: Path) -> str:
         """Upload a local file to GCS.
@@ -83,7 +85,9 @@ class IngestionPipeline:
             client = self._get_gcs_client()
             bucket = client.bucket(clean_bucket)
             blob = bucket.blob(destination_blob)
-            blob.upload_from_string(json.dumps(json_data, indent=2), content_type="application/json")
+            blob.upload_from_string(
+                json.dumps(json_data, indent=2), content_type="application/json"
+            )
             gcs_uri = f"gs://{clean_bucket}/{destination_blob}"
             logger.info(f"Uploaded JSON manifest/metadata to {gcs_uri}")
             return gcs_uri
@@ -121,7 +125,9 @@ class IngestionPipeline:
             metadata = MetadataGenerator.create_metadata(payload, {"execution_id": execution_id})
 
             # Stage 4: Upload Raw Payload & Metadata to GCS Bronze Bucket
-            raw_bucket = self.settings.raw_bucket or f"gs://{self.settings.gcp_project_id}-raw-bronze"
+            raw_bucket = (
+                self.settings.raw_bucket or f"gs://{self.settings.gcp_project_id}-raw-bronze"
+            )
             payload_blob = self._build_gcs_partition_path(target_date, payload.local_file_path.name)
             raw_gcs_uri = self.upload_to_gcs(raw_bucket, payload_blob, payload.local_file_path)
 
@@ -129,7 +135,9 @@ class IngestionPipeline:
             self.upload_json_to_gcs(raw_bucket, meta_blob, metadata)
 
             # Stage 5: Create & Upload Manifest
-            manifest = MetadataGenerator.create_manifest(payload, raw_gcs_uri, execution_id, "SUCCESS")
+            manifest = MetadataGenerator.create_manifest(
+                payload, raw_gcs_uri, execution_id, "SUCCESS"
+            )
             manifest_blob = self._build_gcs_partition_path(target_date, "manifest.json")
             manifest_gcs_uri = self.upload_json_to_gcs(raw_bucket, manifest_blob, manifest)
 

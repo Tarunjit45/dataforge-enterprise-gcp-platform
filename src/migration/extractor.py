@@ -1,8 +1,8 @@
 """Enterprise Data Extractor for MySQL Source Databases."""
 
 import time
-from typing import Any, Dict, List, Optional, Generator
 from pathlib import Path
+from typing import Any, Dict, Generator, List, Optional
 
 from src.common.config.settings import get_settings
 from src.common.exceptions.base import PipelineError
@@ -42,7 +42,9 @@ class DataExtractor:
         Yields:
             Dict[str, Any]: Dictionary containing batch records, count, checksum, and checkpoint info.
         """
-        logger.info(f"Initiating extraction for table '{table_name}' (batch_size={self.batch_size})...")
+        logger.info(
+            f"Initiating extraction for table '{table_name}' (batch_size={self.batch_size})..."
+        )
         checkpoint = self.checkpoints.get(
             table_name,
             CheckpointRecord(table_name=table_name, last_processed_id=start_from_id),
@@ -79,7 +81,9 @@ class DataExtractor:
         while retry_count <= self.max_retries:
             try:
                 # Simulated extraction query execution
-                logger.info(f"Querying MySQL table '{table_name}' starting after PK ID {checkpoint.last_processed_id}...")
+                logger.info(
+                    f"Querying MySQL table '{table_name}' starting after PK ID {checkpoint.last_processed_id}..."
+                )
                 mock_records = [{"id": i, "data": f"sample_{i}"} for i in range(1, 101)]
                 batch_checksum = self.checksum_engine.compute_table_checksum(mock_records)
 
@@ -100,9 +104,13 @@ class DataExtractor:
 
             except Exception as e:
                 retry_count += 1
-                logger.warning(f"Error extracting table '{table_name}' (Attempt {retry_count}/{self.max_retries}): {e}")
+                logger.warning(
+                    f"Error extracting table '{table_name}' (Attempt {retry_count}/{self.max_retries}): {e}"
+                )
                 if retry_count > self.max_retries:
-                    raise PipelineError(f"Failed to extract table '{table_name}' after {self.max_retries} retries: {e}") from e
+                    raise PipelineError(
+                        f"Failed to extract table '{table_name}' after {self.max_retries} retries: {e}"
+                    ) from e
                 time.sleep(1)
 
     def get_checkpoint(self, table_name: str) -> Optional[CheckpointRecord]:

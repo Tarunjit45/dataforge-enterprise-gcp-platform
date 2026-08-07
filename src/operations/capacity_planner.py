@@ -1,9 +1,9 @@
 """Multi-Year Capacity Planning & Resource Growth Estimation Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -31,7 +31,9 @@ class CapacityPlanningEngine:
         Returns:
             Dict[str, Any]: Multi-year capacity projections object.
         """
-        logger.info(f"Calculating capacity projections (Baseline: {current_monthly_data_tb} TB/mo, Growth: {monthly_growth_rate_pct}%)...")
+        logger.info(
+            f"Calculating capacity projections (Baseline: {current_monthly_data_tb} TB/mo, Growth: {monthly_growth_rate_pct}%)..."
+        )
 
         # Compound growth formula: A = P(1 + r)^n
         growth_factor_1yr = (1 + (monthly_growth_rate_pct / 100.0)) ** 12
@@ -49,7 +51,9 @@ class CapacityPlanningEngine:
                 "monthly_ingestion_tb": tb_1yr,
                 "total_storage_capacity_tb": round(tb_1yr * 12 * 0.7, 2),
                 "dataproc_vcpu_hours_per_month": round(120.0 * growth_factor_1yr, 1),
-                "bigquery_slots_recommended": int(round(500 * (1 + (monthly_growth_rate_pct / 100.0) * 6))),
+                "bigquery_slots_recommended": int(
+                    round(500 * (1 + (monthly_growth_rate_pct / 100.0) * 6))
+                ),
                 "alloydb_recommended_read_pool_nodes": 2,
                 "network_egress_gb_per_month": round(50.0 * growth_factor_1yr, 1),
             },
@@ -57,13 +61,17 @@ class CapacityPlanningEngine:
                 "monthly_ingestion_tb": tb_3yr,
                 "total_storage_capacity_tb": round(tb_3yr * 36 * 0.7, 2),
                 "dataproc_vcpu_hours_per_month": round(120.0 * growth_factor_3yr, 1),
-                "bigquery_slots_recommended": int(round(500 * (1 + (monthly_growth_rate_pct / 100.0) * 18))),
+                "bigquery_slots_recommended": int(
+                    round(500 * (1 + (monthly_growth_rate_pct / 100.0) * 18))
+                ),
                 "alloydb_recommended_read_pool_nodes": 4,
                 "network_egress_gb_per_month": round(50.0 * growth_factor_3yr, 1),
             },
         }
 
-        logger.info(f"Capacity Projections: 1-Year Monthly Ingestion={tb_1yr} TB, 3-Year Monthly Ingestion={tb_3yr} TB.")
+        logger.info(
+            f"Capacity Projections: 1-Year Monthly Ingestion={tb_1yr} TB, 3-Year Monthly Ingestion={tb_3yr} TB."
+        )
         return proj
 
     def generate_capacity_plan(self, output_dir: str = ".") -> str:

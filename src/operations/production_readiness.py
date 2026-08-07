@@ -1,9 +1,9 @@
 """Enterprise Production Readiness Scorecard & Assessment Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -34,17 +34,51 @@ class ProductionReadinessEngine:
         Returns:
             Dict[str, Any]: Production readiness scorecard object.
         """
-        logger.info("Evaluating Production Readiness Scorecard across 8 Operational Excellence dimensions...")
+        logger.info(
+            "Evaluating Production Readiness Scorecard across 8 Operational Excellence dimensions..."
+        )
 
         scorecard = {
-            "Security": {"score_percent": 100.0, "status": "APPROVED", "comments": "Zero primitive roles, CMEK encryption, Workload Identity active"},
-            "Availability": {"score_percent": 99.9, "status": "APPROVED", "comments": "Target SLA 99.9% supported across primary GCP services"},
-            "Reliability": {"score_percent": 99.5, "status": "APPROVED", "comments": "Automated retries, circuit breakers, and quality gates active"},
-            "Scalability": {"score_percent": 95.0, "status": "APPROVED", "comments": "Dataproc dynamic shuffle, BigQuery slots, AlloyDB read pools"},
-            "Maintainability": {"score_percent": 98.0, "status": "APPROVED", "comments": "Modular architecture, typed exceptions, structured logs"},
-            "Recoverability": {"score_percent": 100.0, "status": "APPROVED", "comments": "AlloyDB backups, BQ snapshots, GCS versioning, 8.4m RTO"},
-            "Cost Efficiency": {"score_percent": 95.0, "status": "APPROVED", "comments": "Partition pruning, clustering, Spot VMs, FinOps monitoring"},
-            "Operational Excellence": {"score_percent": 100.0, "status": "APPROVED", "comments": "Automated CI/CD, DevSecOps gates, OTel tracing, Alerting"},
+            "Security": {
+                "score_percent": 100.0,
+                "status": "APPROVED",
+                "comments": "Zero primitive roles, CMEK encryption, Workload Identity active",
+            },
+            "Availability": {
+                "score_percent": 99.9,
+                "status": "APPROVED",
+                "comments": "Target SLA 99.9% supported across primary GCP services",
+            },
+            "Reliability": {
+                "score_percent": 99.5,
+                "status": "APPROVED",
+                "comments": "Automated retries, circuit breakers, and quality gates active",
+            },
+            "Scalability": {
+                "score_percent": 95.0,
+                "status": "APPROVED",
+                "comments": "Dataproc dynamic shuffle, BigQuery slots, AlloyDB read pools",
+            },
+            "Maintainability": {
+                "score_percent": 98.0,
+                "status": "APPROVED",
+                "comments": "Modular architecture, typed exceptions, structured logs",
+            },
+            "Recoverability": {
+                "score_percent": 100.0,
+                "status": "APPROVED",
+                "comments": "AlloyDB backups, BQ snapshots, GCS versioning, 8.4m RTO",
+            },
+            "Cost Efficiency": {
+                "score_percent": 95.0,
+                "status": "APPROVED",
+                "comments": "Partition pruning, clustering, Spot VMs, FinOps monitoring",
+            },
+            "Operational Excellence": {
+                "score_percent": 100.0,
+                "status": "APPROVED",
+                "comments": "Automated CI/CD, DevSecOps gates, OTel tracing, Alerting",
+            },
         }
 
         avg_score = round(sum(d["score_percent"] for d in scorecard.values()) / len(scorecard), 2)
@@ -53,14 +87,18 @@ class ProductionReadinessEngine:
         report = {
             "environment": self.settings.environment,
             "overall_readiness_score_percent": avg_score,
-            "production_go_live_status": "APPROVED FOR PRODUCTION 🚀" if ready_for_production else "REJECTED",
+            "production_go_live_status": (
+                "APPROVED FOR PRODUCTION 🚀" if ready_for_production else "REJECTED"
+            ),
             "evaluated_at_utc": datetime.now(timezone.utc).isoformat(),
             "dimensions_evaluated_count": len(scorecard),
             "readiness_scorecard": scorecard,
         }
 
         if ready_for_production:
-            logger.info(f"Production Readiness Scorecard PASSED! Overall Score: {avg_score}%. APPROVED FOR GO-LIVE.")
+            logger.info(
+                f"Production Readiness Scorecard PASSED! Overall Score: {avg_score}%. APPROVED FOR GO-LIVE."
+            )
         else:
             logger.error(f"Production Readiness Scorecard FAILED! Score: {avg_score}%")
 

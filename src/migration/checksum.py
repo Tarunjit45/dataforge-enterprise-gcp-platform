@@ -16,7 +16,9 @@ class ChecksumEngine:
     def __init__(self):
         self.settings = get_settings()
 
-    def compute_row_hash(self, row_dict: Dict[str, Any], excluded_keys: Optional[List[str]] = None) -> str:
+    def compute_row_hash(
+        self, row_dict: Dict[str, Any], excluded_keys: Optional[List[str]] = None
+    ) -> str:
         """Compute SHA256 checksum string for a single data record dictionary.
 
         Args:
@@ -37,7 +39,9 @@ class ChecksumEngine:
         payload = "|".join(sorted_pairs)
         return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
-    def compute_table_checksum(self, rows: List[Dict[str, Any]], excluded_keys: Optional[List[str]] = None) -> str:
+    def compute_table_checksum(
+        self, rows: List[Dict[str, Any]], excluded_keys: Optional[List[str]] = None
+    ) -> str:
         """Compute aggregate SHA256 checksum for a collection of table row dictionaries.
 
         Args:
@@ -69,5 +73,7 @@ class ChecksumEngine:
         if match:
             logger.info(f"Checksum comparison MATCHED: {source_hash}")
         else:
-            logger.warning(f"Checksum comparison MISMATCH! Source: {source_hash} vs Target: {target_hash}")
+            logger.warning(
+                f"Checksum comparison MISMATCH! Source: {source_hash} vs Target: {target_hash}"
+            )
         return match

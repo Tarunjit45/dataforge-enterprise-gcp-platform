@@ -2,28 +2,26 @@
 
 import json
 import time
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
-from src.observability.logging import TelemetryLogger
-from src.observability.metrics import MetricsCollector
-from src.observability.telemetry import TelemetryManager
-from src.observability.health_checks import ServiceHealthChecker
-from src.observability.sla import SLACalculator
+from src.migration.reporting import MigrationReporter
 from src.observability.cost_monitor import CostObservabilityEngine
 from src.observability.dashboards import DashboardGenerator
-
-from src.operations.reports import OperationalReportConsolidator
-from src.operations.production_readiness import ProductionReadinessEngine
-from src.operations.iam_audit import IAMAuditEngine
-from src.operations.security_posture import SecurityPostureEngine
+from src.observability.health_checks import ServiceHealthChecker
+from src.observability.logging import TelemetryLogger
+from src.observability.metrics import MetricsCollector
+from src.observability.sla import SLACalculator
+from src.observability.telemetry import TelemetryManager
 from src.operations.compliance import ComplianceAuditEngine
 from src.operations.disaster_recovery import DisasterRecoveryEngine
+from src.operations.iam_audit import IAMAuditEngine
 from src.operations.performance_benchmark import PerformanceBenchmarkEngine
-
-from src.migration.reporting import MigrationReporter
+from src.operations.production_readiness import ProductionReadinessEngine
+from src.operations.reports import OperationalReportConsolidator
+from src.operations.security_posture import SecurityPostureEngine
 from src.warehouse.models.star_schema import get_star_schema_definition
 
 
@@ -52,13 +50,41 @@ class EndToEndPipelineRunner:
         compliance = ComplianceAuditEngine().evaluate_compliance()
 
         components = [
-            {"name": "GCS Bronze/Silver/Gold/Quarantine Buckets", "status": "VERIFIED", "details": "Versioning & Lifecycle Rules Active"},
-            {"name": "IAM Least Privilege & Workload Identity", "status": "VERIFIED", "details": iam["least_privilege_passed"]},
-            {"name": "Dataproc PySpark Cluster", "status": "VERIFIED", "details": "Auto-scaling & Preemptible Workers Configured"},
-            {"name": "BigQuery Datasets & Star Schema Tables", "status": "VERIFIED", "details": "Partitioned on trip_date & Clustered"},
-            {"name": "AlloyDB PostgreSQL Instance & Datastream CDC", "status": "VERIFIED", "details": "HA Cluster & Continuous Replication Active"},
-            {"name": "Secret Manager & KMS CMEK Encryption", "status": "VERIFIED", "details": "CMEK Keyring Bound to Storage/BQ/AlloyDB"},
-            {"name": "Google Cloud Monitoring & Logging Sinks", "status": "VERIFIED", "details": "JSON Logging & Custom Metrics Active"},
+            {
+                "name": "GCS Bronze/Silver/Gold/Quarantine Buckets",
+                "status": "VERIFIED",
+                "details": "Versioning & Lifecycle Rules Active",
+            },
+            {
+                "name": "IAM Least Privilege & Workload Identity",
+                "status": "VERIFIED",
+                "details": iam["least_privilege_passed"],
+            },
+            {
+                "name": "Dataproc PySpark Cluster",
+                "status": "VERIFIED",
+                "details": "Auto-scaling & Preemptible Workers Configured",
+            },
+            {
+                "name": "BigQuery Datasets & Star Schema Tables",
+                "status": "VERIFIED",
+                "details": "Partitioned on trip_date & Clustered",
+            },
+            {
+                "name": "AlloyDB PostgreSQL Instance & Datastream CDC",
+                "status": "VERIFIED",
+                "details": "HA Cluster & Continuous Replication Active",
+            },
+            {
+                "name": "Secret Manager & KMS CMEK Encryption",
+                "status": "VERIFIED",
+                "details": "CMEK Keyring Bound to Storage/BQ/AlloyDB",
+            },
+            {
+                "name": "Google Cloud Monitoring & Logging Sinks",
+                "status": "VERIFIED",
+                "details": "JSON Logging & Custom Metrics Active",
+            },
         ]
         all_passed = all(c["status"] == "VERIFIED" for c in components)
 
@@ -89,7 +115,9 @@ class EndToEndPipelineRunner:
         start_time = time.time()
         span = self.telemetry.start_span("end_to_end_pipeline_execution")
 
-        self.logger.info("Starting End-to-End Pipeline Execution (Ingestion -> ETL -> DQ -> Warehouse -> Migration -> Telemetry)...")
+        self.logger.info(
+            "Starting End-to-End Pipeline Execution (Ingestion -> ETL -> DQ -> Warehouse -> Migration -> Telemetry)..."
+        )
 
         # Step 1: Ingestion Simulation
         time.sleep(0.05)
@@ -125,7 +153,11 @@ class EndToEndPipelineRunner:
         )
 
         migration_reports = migration_rep.get("reports", {})
-        mig_status = "PASSED" if all(r.get("status") != "MISSING" for r in migration_reports.values()) else "IN_PROGRESS"
+        mig_status = (
+            "PASSED"
+            if all(r.get("status") != "MISSING" for r in migration_reports.values())
+            else "IN_PROGRESS"
+        )
 
         perf_report = {
             "environment": self.settings.environment,
@@ -152,7 +184,9 @@ class EndToEndPipelineRunner:
             json.dump(perf_report, f, indent=2)
 
         self.telemetry.finish_span(span)
-        self.logger.info(f"End-to-End Pipeline Execution PASSED in {total_duration}s (Throughput: {throughput_rps} rps).")
+        self.logger.info(
+            f"End-to-End Pipeline Execution PASSED in {total_duration}s (Throughput: {throughput_rps} rps)."
+        )
         return perf_report
 
     def generate_final_platform_validation(self) -> Dict[str, Any]:
@@ -167,7 +201,9 @@ class EndToEndPipelineRunner:
         perf_val = self.run_end_to_end_pipeline()
 
         readiness = ProductionReadinessEngine().evaluate_production_readiness()
-        OperationalReportConsolidator(output_dir=str(self.output_dir)).generate_all_operational_reports()
+        OperationalReportConsolidator(
+            output_dir=str(self.output_dir)
+        ).generate_all_operational_reports()
 
         pillars = {
             "Infrastructure": "PASSED ✅",
@@ -187,7 +223,9 @@ class EndToEndPipelineRunner:
             "phase": "Phase 14 - End-to-End Integration & Validation",
             "validated_at_utc": datetime.now(timezone.utc).isoformat(),
             "overall_platform_validation_status": "PASSED 🚀" if all_passed else "FAILED",
-            "production_go_live_readiness_score_percent": readiness["overall_readiness_score_percent"],
+            "production_go_live_readiness_score_percent": readiness[
+                "overall_readiness_score_percent"
+            ],
             "pillar_validations": pillars,
             "architecture_validation_summary": arch_val["overall_architecture_valid"],
             "performance_summary": perf_val["execution_metrics"],
@@ -197,7 +235,9 @@ class EndToEndPipelineRunner:
         with open(final_file, "w", encoding="utf-8") as f:
             json.dump(final_report, f, indent=2)
 
-        self.logger.info(f"Saved final_platform_validation.json to '{final_file.resolve()}'. Status: {final_report['overall_platform_validation_status']}")
+        self.logger.info(
+            f"Saved final_platform_validation.json to '{final_file.resolve()}'. Status: {final_report['overall_platform_validation_status']}"
+        )
         return final_report
 
 

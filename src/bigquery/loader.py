@@ -8,10 +8,10 @@ try:
 except ImportError:
     bigquery = None  # Handled gracefully if client is injected or mock
 
+from src.bigquery.schema_loader import load_bq_schema_from_json
 from src.common.config.settings import get_settings
 from src.common.exceptions.base import CloudStorageError, PipelineError
 from src.common.logging.logger import get_logger
-from src.bigquery.schema_loader import load_bq_schema_from_json
 
 logger = get_logger(__name__)
 
@@ -62,13 +62,17 @@ class BigQueryLoader:
         else:
             job_config = None
 
-        logger.info(f"Submitting BigQuery Load Job: {gcs_uri} -> {full_table_id} [{write_disposition}]")
+        logger.info(
+            f"Submitting BigQuery Load Job: {gcs_uri} -> {full_table_id} [{write_disposition}]"
+        )
         load_job = client.load_table_from_uri(gcs_uri, full_table_id, job_config=job_config)
         load_job.result()  # Wait for job completion
 
         destination_table = client.get_table(full_table_id)
         loaded_rows = destination_table.num_rows
-        logger.info(f"BigQuery Load Job completed. Total table rows in {full_table_id}: {loaded_rows}")
+        logger.info(
+            f"BigQuery Load Job completed. Total table rows in {full_table_id}: {loaded_rows}"
+        )
         return loaded_rows
 
     def execute_merge_upsert(self, sql_file_name: str, dataset_id: str) -> int:
@@ -96,10 +100,14 @@ class BigQueryLoader:
             dataset_id=dataset_id,
         )
 
-        logger.info(f"Executing BigQuery MERGE Query from '{sql_file_name}' against dataset '{dataset_id}'...")
+        logger.info(
+            f"Executing BigQuery MERGE Query from '{sql_file_name}' against dataset '{dataset_id}'..."
+        )
         query_job = client.query(formatted_sql)
         query_job.result()  # Wait for query execution
 
         num_affected = query_job.num_dml_affected_rows or 0
-        logger.info(f"BigQuery MERGE Query completed successfully. Affected DML rows: {num_affected}")
+        logger.info(
+            f"BigQuery MERGE Query completed successfully. Affected DML rows: {num_affected}"
+        )
         return num_affected

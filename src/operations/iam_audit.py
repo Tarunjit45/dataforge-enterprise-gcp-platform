@@ -1,9 +1,9 @@
 """IAM Security Audit & Least Privilege Verification Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -30,9 +30,24 @@ class IAMAuditEngine:
 
         # Simulated or live GCP IAM Policy bindings
         bindings = [
-            {"role": "roles/dataproc.worker", "members": [f"serviceAccount:sa-dataproc-etl@{self.settings.gcp_project_id}.iam.gserviceaccount.com"]},
-            {"role": "roles/bigquery.dataEditor", "members": [f"serviceAccount:sa-bigquery-loader@{self.settings.gcp_project_id}.iam.gserviceaccount.com"]},
-            {"role": "roles/alloydb.client", "members": [f"serviceAccount:sa-alloydb-migration@{self.settings.gcp_project_id}.iam.gserviceaccount.com"]},
+            {
+                "role": "roles/dataproc.worker",
+                "members": [
+                    f"serviceAccount:sa-dataproc-etl@{self.settings.gcp_project_id}.iam.gserviceaccount.com"
+                ],
+            },
+            {
+                "role": "roles/bigquery.dataEditor",
+                "members": [
+                    f"serviceAccount:sa-bigquery-loader@{self.settings.gcp_project_id}.iam.gserviceaccount.com"
+                ],
+            },
+            {
+                "role": "roles/alloydb.client",
+                "members": [
+                    f"serviceAccount:sa-alloydb-migration@{self.settings.gcp_project_id}.iam.gserviceaccount.com"
+                ],
+            },
         ]
 
         primitive_violations = []

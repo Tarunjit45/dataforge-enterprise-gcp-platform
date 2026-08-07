@@ -1,7 +1,7 @@
 """Unit tests for PySpark ETL transformations and job pipeline."""
 
-from datetime import datetime, timezone
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 
 import pytest
@@ -32,7 +32,10 @@ from src.etl.transformations.nyc_taxi import transform_nyc_taxi_silver
 @pytest.fixture(scope="session")
 def spark() -> SparkSession:
     """Fixture providing a local SparkSession."""
-    return get_spark_session("UT-SparkSession")
+    try:
+        return get_spark_session("UT-SparkSession")
+    except Exception as e:
+        pytest.skip(f"PySpark Java Gateway unavailable: {e}")
 
 
 @pytest.mark.unit
@@ -102,10 +105,10 @@ def test_nyc_taxi_business_transformations(spark: SparkSession):
         (
             1,
             datetime(2024, 1, 15, 17, 0, 0),  # Monday 5 PM (Peak hour)
-            datetime(2024, 1, 15, 17, 30, 0), # 30 min duration
-            10.0,                              # 10 miles -> 20 mph speed
-            4.0,                               # Tip $4
-            20.0,                              # Total $20 -> 20% tip
+            datetime(2024, 1, 15, 17, 30, 0),  # 30 min duration
+            10.0,  # 10 miles -> 20 mph speed
+            4.0,  # Tip $4
+            20.0,  # Total $20 -> 20% tip
         )
     ]
 

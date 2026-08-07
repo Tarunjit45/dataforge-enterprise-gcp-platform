@@ -44,7 +44,9 @@ class OperationalReportConsolidator:
         Returns:
             Dict[str, str]: Map of report artifact key to generated file path.
         """
-        logger.info("Generating all 8 Phase 12 Operational & Production Readiness Report Artifacts...")
+        logger.info(
+            "Generating all 8 Phase 12 Operational & Production Readiness Report Artifacts..."
+        )
 
         p1 = ProductionReadinessEngine().generate_readiness_report(str(self.output_dir))
         p2 = SecurityPostureEngine().generate_security_report(str(self.output_dir))
@@ -66,5 +68,7 @@ class OperationalReportConsolidator:
             "compliance_report.json": p8,
         }
 
-        logger.info(f"Successfully generated {len(report_map)} Phase 12 JSON report artifacts in '{self.output_dir.resolve()}'.")
+        logger.info(
+            f"Successfully generated {len(report_map)} Phase 12 JSON report artifacts in '{self.output_dir.resolve()}'."
+        )
         return report_map

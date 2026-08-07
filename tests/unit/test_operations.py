@@ -1,6 +1,7 @@
 """Unit tests for Phase 12 Operational Excellence & Production Hardening Framework."""
 
 from pathlib import Path
+
 import pytest
 
 from src.operations.backup_manager import BackupManager
@@ -93,11 +94,16 @@ def test_load_testing_engine():
 def test_capacity_planning_engine(tmp_path):
     """Verify 1-year and 3-year capacity growth projections."""
     planner = CapacityPlanningEngine()
-    proj = planner.calculate_capacity_projections(current_monthly_data_tb=1.5, monthly_growth_rate_pct=8.0)
+    proj = planner.calculate_capacity_projections(
+        current_monthly_data_tb=1.5, monthly_growth_rate_pct=8.0
+    )
 
     assert "one_year_projection" in proj
     assert "three_year_projection" in proj
-    assert proj["three_year_projection"]["monthly_ingestion_tb"] > proj["one_year_projection"]["monthly_ingestion_tb"]
+    assert (
+        proj["three_year_projection"]["monthly_ingestion_tb"]
+        > proj["one_year_projection"]["monthly_ingestion_tb"]
+    )
 
     filepath = planner.generate_capacity_plan(output_dir=str(tmp_path))
     assert Path(filepath).exists()
@@ -145,6 +151,7 @@ def test_production_readiness_scorecard(tmp_path):
 def test_production_deployment_engine(tmp_path):
     """Verify ProductionDeploymentEngine report generation and validation checks."""
     from src.operations.deployment_engine import ProductionDeploymentEngine
+
     engine = ProductionDeploymentEngine(output_dir=str(tmp_path))
     reports = engine.run_full_deployment_pipeline()
 

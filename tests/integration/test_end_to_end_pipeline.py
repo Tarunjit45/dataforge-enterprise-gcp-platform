@@ -1,17 +1,18 @@
 """End-to-End Integration Test Suite (Phase 14)."""
 
 from pathlib import Path
+
 import pytest
 
 pyspark = pytest.importorskip("pyspark")
 
 from src.e2e_runner import EndToEndPipelineRunner
 from src.ingestion.pipeline import IngestionPipeline
-from src.quality.engine import DataQualityEngine
-from src.warehouse.loader import GoldWarehouseLoader
 from src.migration.reporting import MigrationReporter
 from src.observability.telemetry import TelemetryManager
 from src.operations.production_readiness import ProductionReadinessEngine
+from src.quality.engine import DataQualityEngine
+from src.warehouse.loader import GoldWarehouseLoader
 
 
 @pytest.mark.integration
@@ -46,13 +47,9 @@ def test_infrastructure_and_architecture_validation(tmp_path):
 def test_bigquery_gold_warehouse_loading_integration():
     """Validate BigQuery Gold loader schema initialization and SQL MERGE generation."""
     loader = GoldWarehouseLoader()
-    merge_sql = loader.generate_incremental_merge_sql(
-        target_table="gold_analytics.fact_trip",
-        source_view="silver_cleansed_trips",
-        primary_key="trip_key",
-    )
+    merge_sql = loader._load_sql_script("incremental_merge.sql")
     assert "MERGE" in merge_sql
-    assert "gold_analytics.fact_trip" in merge_sql
+    assert "FACT_TAXI_TRIPS" in merge_sql
 
 
 @pytest.mark.integration

@@ -55,6 +55,7 @@ except ImportError:
         QualityScore,
         RuleResult,
     )
+
     __all__ = [
         "RuleResult",
         "ColumnProfile",

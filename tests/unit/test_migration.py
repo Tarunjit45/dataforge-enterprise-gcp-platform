@@ -2,9 +2,12 @@
 
 import json
 from pathlib import Path
+
 import pytest
 
 from src.migration.assessment import DatabaseAssessmentEngine
+from src.migration.cdc.datastream import DatastreamCDCManager
+from src.migration.cdc.replication import BinlogReplicationTracker
 from src.migration.checksum import ChecksumEngine
 from src.migration.cutover import CutoverOrchestrator
 from src.migration.extractor import DataExtractor
@@ -13,8 +16,6 @@ from src.migration.metadata import DatabaseInventory, MigrationStatus, Validatio
 from src.migration.reporting import MigrationReporter
 from src.migration.rollback import RollbackEngine
 from src.migration.schema_converter import SchemaConverter
-from src.migration.cdc.datastream import DatastreamCDCManager
-from src.migration.cdc.replication import BinlogReplicationTracker
 from src.migration.validator import MigrationValidator
 
 
@@ -39,8 +40,8 @@ def test_schema_converter_ddl_generation(tmp_path):
     inventory = assessment_engine._introspect_mysql_schema("test_db")
 
     sql_ddl, report = converter.generate_alloydb_ddl(inventory, target_schema="public")
-    assert "CREATE TABLE IF NOT EXISTS \"public\".\"customers\"" in sql_ddl
-    assert "\"is_active\" BOOLEAN" in sql_ddl
+    assert 'CREATE TABLE IF NOT EXISTS "public"."customers"' in sql_ddl
+    assert '"is_active" BOOLEAN' in sql_ddl
     assert "GENERATED ALWAYS AS IDENTITY" in sql_ddl
     assert report["converted_tables_count"] == 4
 
@@ -97,7 +98,9 @@ def test_extractor_and_loader_pipeline(tmp_path):
     assert len(extracted_batches) == 2  # 100 records / 50 batch_size = 2 batches
 
     first_batch = extracted_batches[0]
-    checkpoint = loader.load_batch("users", first_batch["records"], expected_checksum=first_batch["batch_checksum"])
+    checkpoint = loader.load_batch(
+        "users", first_batch["records"], expected_checksum=first_batch["batch_checksum"]
+    )
 
     assert checkpoint.rows_loaded == 50
 
@@ -152,13 +155,17 @@ def test_cutover_and_rollback_flow(tmp_path):
     )
 
     cutover_orch = CutoverOrchestrator()
-    status = cutover_orch.execute_cutover([val_res], replication_lag_seconds=1.0, output_dir=str(tmp_path))
+    status = cutover_orch.execute_cutover(
+        [val_res], replication_lag_seconds=1.0, output_dir=str(tmp_path)
+    )
     assert status.status == MigrationStatus.CUTOVER_SUCCESS
     assert status.application_switched is True
     assert (tmp_path / "cutover_report.json").exists()
 
     rollback_eng = RollbackEngine()
-    plan = rollback_eng.generate_rollback_plan(trigger_reason="Validation failure test", target_tables=["customers"])
+    plan = rollback_eng.generate_rollback_plan(
+        trigger_reason="Validation failure test", target_tables=["customers"]
+    )
     executed_plan = rollback_eng.execute_rollback(plan, output_dir=str(tmp_path))
     assert executed_plan.status == "EXECUTED"
     assert executed_plan.dns_reverted is True

@@ -13,7 +13,9 @@ from datetime import datetime, timezone
 from typing import Any, Dict
 
 # Context variable for tracking correlation IDs across execution contexts
-_CORRELATION_ID: contextvars.ContextVar[str] = contextvars.ContextVar("correlation_id", default="N/A")
+_CORRELATION_ID: contextvars.ContextVar[str] = contextvars.ContextVar(
+    "correlation_id", default="N/A"
+)
 
 
 def set_correlation_id(correlation_id: str) -> None:

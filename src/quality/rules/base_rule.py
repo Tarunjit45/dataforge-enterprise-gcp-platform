@@ -2,6 +2,7 @@
 
 from abc import ABC, abstractmethod
 from typing import Any
+
 from pyspark.sql import DataFrame
 
 from src.quality.models.quality_result import RuleResult

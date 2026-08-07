@@ -1,9 +1,9 @@
 """Backup Restoration & Integrity Validation Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -30,9 +30,17 @@ class RestoreValidator:
         status = self.backup_manager.get_backup_status()
         validations = [
             {"target": "AlloyDB Backup Restoration", "status": "PASSED", "duration_seconds": 12.5},
-            {"target": "BigQuery Snapshot Restoration", "status": "PASSED", "duration_seconds": 4.2},
+            {
+                "target": "BigQuery Snapshot Restoration",
+                "status": "PASSED",
+                "duration_seconds": 4.2,
+            },
             {"target": "GCS Object Version Recovery", "status": "PASSED", "duration_seconds": 1.1},
-            {"target": "Terraform State Rollback Recovery", "status": "PASSED", "duration_seconds": 0.8},
+            {
+                "target": "Terraform State Rollback Recovery",
+                "status": "PASSED",
+                "duration_seconds": 0.8,
+            },
         ]
         all_passed = all(v["status"] == "PASSED" for v in validations)
 

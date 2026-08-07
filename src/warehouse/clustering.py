@@ -1,6 +1,6 @@
 """Enterprise BigQuery Clustering Manager."""
 
-from typing import Any, List, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 try:
     from google.cloud import bigquery
@@ -27,7 +27,9 @@ class ClusteringManager:
         """Lazy-initialize BigQuery client."""
         if self.bq_client is None:
             if bigquery is None:
-                raise PipelineError("google-cloud-bigquery is not installed and no bq_client injected.")
+                raise PipelineError(
+                    "google-cloud-bigquery is not installed and no bq_client injected."
+                )
             self.bq_client = bigquery.Client(project=self.settings.gcp_project_id)
         return self.bq_client
 

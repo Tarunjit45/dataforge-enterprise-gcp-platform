@@ -1,7 +1,9 @@
 """Centralized SparkSession factory supporting local and Dataproc execution."""
 
 import os
+
 from pyspark.sql import SparkSession
+
 from src.common.config.settings import get_settings
 from src.common.logging.logger import get_logger
 
@@ -28,10 +30,11 @@ def get_spark_session(app_name: str = "Enterprise-GCP-Data-Platform") -> SparkSe
     if env in ("dev", "test"):
         logger.info(f"Initializing SparkSession in Local Mode for environment '{env}'")
         builder = (
-            builder.master("local[*]")
-            .config("spark.sql.shuffle.partitions", "4")
-            .config("spark.driver.memory", "2g")
-            .config("spark.sql.execution.arrow.pyspark.enabled", "true")
+            builder.master("local[1]")
+            .config("spark.driver.host", "127.0.0.1")
+            .config("spark.driver.bindAddress", "127.0.0.1")
+            .config("spark.sql.shuffle.partitions", "2")
+            .config("spark.driver.memory", "1g")
             .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
         )
     else:

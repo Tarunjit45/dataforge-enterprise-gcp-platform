@@ -36,7 +36,9 @@ class GoldWarehouseLoader:
         """Lazy-initialize BigQuery client."""
         if self.bq_client is None:
             if bigquery is None:
-                raise PipelineError("google-cloud-bigquery library is not installed and no bq_client injected.")
+                raise PipelineError(
+                    "google-cloud-bigquery library is not installed and no bq_client injected."
+                )
             self.bq_client = bigquery.Client(project=self.settings.gcp_project_id)
         return self.bq_client
 
@@ -72,7 +74,9 @@ class GoldWarehouseLoader:
         dataset.labels = {"layer": "gold", "env": self.settings.environment}
         try:
             client.create_dataset(dataset, exists_ok=True)
-            logger.info(f"Initialized Gold dataset '{full_dataset_id}' in region '{self.settings.region}'.")
+            logger.info(
+                f"Initialized Gold dataset '{full_dataset_id}' in region '{self.settings.region}'."
+            )
         except Exception as e:
             logger.warning(f"Dataset creation check for '{full_dataset_id}': {e}")
 
@@ -109,7 +113,9 @@ class GoldWarehouseLoader:
         query_job = client.query(formatted_sql)
         query_job.result()
         affected = query_job.num_dml_affected_rows or 0
-        logger.info(f"Successfully updated dimension tables in '{dataset_id}'. Affected rows: {affected}")
+        logger.info(
+            f"Successfully updated dimension tables in '{dataset_id}'. Affected rows: {affected}"
+        )
         return affected
 
     def load_incremental_fact(
@@ -178,7 +184,9 @@ class GoldWarehouseLoader:
             dataset_id=dataset_id,
             table_id="FACT_TAXI_TRIPS",
         )
-        logger.info(f"Gold Warehouse load completed successfully for batch '{batch_id}'. Inserted/Merged rows: {affected_rows}")
+        logger.info(
+            f"Gold Warehouse load completed successfully for batch '{batch_id}'. Inserted/Merged rows: {affected_rows}"
+        )
         return metadata
 
     def deploy_analytics_layer(self, dataset_id: str = "gold_analytics") -> bool:
@@ -197,7 +205,9 @@ class GoldWarehouseLoader:
                 project_id=self.settings.gcp_project_id,
                 dataset_id=dataset_id,
             )
-            logger.info(f"Deploying analytical script '{view_script}' against dataset '{dataset_id}'...")
+            logger.info(
+                f"Deploying analytical script '{view_script}' against dataset '{dataset_id}'..."
+            )
             query_job = client.query(formatted_sql)
             query_job.result()
         logger.info("Successfully deployed analytics layer views and data marts.")

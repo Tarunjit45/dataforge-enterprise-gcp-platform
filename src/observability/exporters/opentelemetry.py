@@ -1,8 +1,9 @@
 """OpenTelemetry Trace Span Exporter Engine."""
 
 from typing import Any, Dict, List
-from src.observability.tracing import OpenTelemetryTracer, TelemetrySpan
+
 from src.observability.logging import TelemetryLogger
+from src.observability.tracing import OpenTelemetryTracer, TelemetrySpan
 
 logger = TelemetryLogger("opentelemetry_exporter")
 

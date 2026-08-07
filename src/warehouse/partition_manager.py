@@ -1,7 +1,7 @@
 """Enterprise BigQuery Partition Manager."""
 
-from typing import Any, List, Dict, Optional
 from datetime import datetime, timedelta, timezone
+from typing import Any, Dict, List, Optional
 
 try:
     from google.cloud import bigquery
@@ -26,7 +26,9 @@ class PartitionManager:
         """Lazy-initialize BigQuery client."""
         if self.bq_client is None:
             if bigquery is None:
-                raise PipelineError("google-cloud-bigquery is not installed and no bq_client injected.")
+                raise PipelineError(
+                    "google-cloud-bigquery is not installed and no bq_client injected."
+                )
             self.bq_client = bigquery.Client(project=self.settings.gcp_project_id)
         return self.bq_client
 
@@ -79,7 +81,9 @@ class PartitionManager:
             table = client.get_table(full_table_id)
             table.expires = expiration_time
             client.update_table(table, ["expires"])
-            logger.info(f"Set table expiration for {full_table_id} to {expiration_time.isoformat()}")
+            logger.info(
+                f"Set table expiration for {full_table_id} to {expiration_time.isoformat()}"
+            )
             return True
         except Exception as e:
             logger.warning(f"Failed to set table expiration on {full_table_id}: {e}")
@@ -121,7 +125,9 @@ class PartitionManager:
             logger.info(f"Retrieved {len(partitions)} partitions for {dataset_id}.{table_id}.")
             return partitions
         except Exception as e:
-            logger.error(f"Error querying INFORMATION_SCHEMA.PARTITIONS for {dataset_id}.{table_id}: {e}")
+            logger.error(
+                f"Error querying INFORMATION_SCHEMA.PARTITIONS for {dataset_id}.{table_id}: {e}"
+            )
             return []
 
     def drop_partition(self, dataset_id: str, table_id: str, partition_id: str) -> bool:

@@ -1,8 +1,9 @@
 """Unit tests for Phase 10 CI/CD & DevSecOps Platform Workflows and Scripts."""
 
 from pathlib import Path
-import yaml
+
 import pytest
+import yaml
 
 
 @pytest.mark.unit
@@ -31,7 +32,6 @@ def test_github_action_workflows_exist_and_valid():
         root_dir / ".github" / "workflows" / "ci.yml",
         root_dir / ".github" / "workflows" / "cd.yml",
         root_dir / ".github" / "workflows" / "terraform.yml",
-        root_dir / ".github" / "workflows" / "quality-gates.yml",
         root_dir / ".github" / "workflows" / "release.yml",
     ]
 

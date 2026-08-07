@@ -41,7 +41,9 @@ class RegexRule(BaseRule):
             total_records=total,
             failed_records=failed_count,
             error_code=self.error_code,
-            error_message=f"Column '{self.column}' has {failed_count} values failing regex pattern '{self.pattern}'."
-            if not passed
-            else "Passed",
+            error_message=(
+                f"Column '{self.column}' has {failed_count} values failing regex pattern '{self.pattern}'."
+                if not passed
+                else "Passed"
+            ),
         )

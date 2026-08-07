@@ -1,14 +1,16 @@
 """BigQuery JSON schema contract loader utility."""
 
-from dataclasses import dataclass
 import json
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, List
 
 try:
     from google.cloud import bigquery
+
     SchemaFieldClass = bigquery.SchemaField
 except ImportError:
+
     @dataclass
     class SchemaFieldFallback:
         name: str
@@ -55,7 +57,9 @@ def load_bq_schema_from_json(schema_name: str) -> List[Any]:
             )
             for field in raw_fields
         ]
-        logger.info(f"Successfully loaded BigQuery schema '{schema_name}' ({len(schema_fields)} fields).")
+        logger.info(
+            f"Successfully loaded BigQuery schema '{schema_name}' ({len(schema_fields)} fields)."
+        )
         return schema_fields
     except Exception as e:
         raise ConfigurationError(f"Failed to parse BigQuery schema JSON {schema_file}: {e}") from e

@@ -1,9 +1,9 @@
 """Enterprise Production Deployment & GCP Resource Inventory Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -52,7 +52,9 @@ class ProductionDeploymentEngine:
     def validate_secrets_configuration(self) -> Dict[str, Any]:
         """Verify Secret Manager secrets access and encryption key status."""
         logger.info("Validating Secret Manager secrets and KMS CMEK keys...")
-        secrets_status = {s: "ACCESSIBLE_VERIFIED" for s in self.RESOURCE_INVENTORY["secret_manager_secrets"]}
+        secrets_status = {
+            s: "ACCESSIBLE_VERIFIED" for s in self.RESOURCE_INVENTORY["secret_manager_secrets"]
+        }
         return {
             "environment": self.settings.environment,
             "validated_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -62,21 +64,59 @@ class ProductionDeploymentEngine:
 
     def deploy_and_verify_bigquery_objects(self) -> Dict[str, Any]:
         """Execute BigQuery dataset creation, DDL execution, dimension/fact loading, and analytical views."""
-        logger.info("Deploying BigQuery datasets (Raw, Silver, Gold, Monitoring) and Data Mart Views...")
+        logger.info(
+            "Deploying BigQuery datasets (Raw, Silver, Gold, Monitoring) and Data Mart Views..."
+        )
         objects = [
             {"object": "Dataset: dataforge_raw", "type": "DATASET", "status": "DEPLOYED"},
             {"object": "Dataset: dataforge_silver", "type": "DATASET", "status": "DEPLOYED"},
             {"object": "Dataset: gold_analytics", "type": "DATASET", "status": "DEPLOYED"},
             {"object": "Dataset: dataforge_monitoring", "type": "DATASET", "status": "DEPLOYED"},
-            {"object": "Table: gold_analytics.dim_customer", "type": "DIMENSION_SCD2", "status": "DEPLOYED"},
-            {"object": "Table: gold_analytics.dim_vendor", "type": "DIMENSION_SCD2", "status": "DEPLOYED"},
-            {"object": "Table: gold_analytics.dim_location", "type": "DIMENSION_SCD2", "status": "DEPLOYED"},
-            {"object": "Table: gold_analytics.dim_payment_type", "type": "DIMENSION_SCD2", "status": "DEPLOYED"},
-            {"object": "Table: gold_analytics.dim_date", "type": "DIMENSION_STATIC", "status": "DEPLOYED"},
-            {"object": "Table: gold_analytics.dim_rate_code", "type": "DIMENSION_SCD2", "status": "DEPLOYED"},
-            {"object": "Table: gold_analytics.fact_trip", "type": "FACT_PARTITIONED", "status": "DEPLOYED"},
-            {"object": "View: gold_analytics.mv_executive_summary_mart", "type": "MATERIALIZED_VIEW", "status": "DEPLOYED"},
-            {"object": "View: gold_analytics.mv_geographic_demand_mart", "type": "MATERIALIZED_VIEW", "status": "DEPLOYED"},
+            {
+                "object": "Table: gold_analytics.dim_customer",
+                "type": "DIMENSION_SCD2",
+                "status": "DEPLOYED",
+            },
+            {
+                "object": "Table: gold_analytics.dim_vendor",
+                "type": "DIMENSION_SCD2",
+                "status": "DEPLOYED",
+            },
+            {
+                "object": "Table: gold_analytics.dim_location",
+                "type": "DIMENSION_SCD2",
+                "status": "DEPLOYED",
+            },
+            {
+                "object": "Table: gold_analytics.dim_payment_type",
+                "type": "DIMENSION_SCD2",
+                "status": "DEPLOYED",
+            },
+            {
+                "object": "Table: gold_analytics.dim_date",
+                "type": "DIMENSION_STATIC",
+                "status": "DEPLOYED",
+            },
+            {
+                "object": "Table: gold_analytics.dim_rate_code",
+                "type": "DIMENSION_SCD2",
+                "status": "DEPLOYED",
+            },
+            {
+                "object": "Table: gold_analytics.fact_trip",
+                "type": "FACT_PARTITIONED",
+                "status": "DEPLOYED",
+            },
+            {
+                "object": "View: gold_analytics.mv_executive_summary_mart",
+                "type": "MATERIALIZED_VIEW",
+                "status": "DEPLOYED",
+            },
+            {
+                "object": "View: gold_analytics.mv_geographic_demand_mart",
+                "type": "MATERIALIZED_VIEW",
+                "status": "DEPLOYED",
+            },
         ]
         return {
             "overall_bigquery_status": "DEPLOYED_AND_VERIFIED",

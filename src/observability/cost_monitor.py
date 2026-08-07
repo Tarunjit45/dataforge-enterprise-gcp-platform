@@ -1,9 +1,9 @@
 """FinOps & GCP Infrastructure Cost Observability Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -68,7 +68,9 @@ class CostObservabilityEngine:
             "budget_status": "NORMAL" if estimated_monthly < 5000.0 else "ANOMALY_WARNING",
         }
 
-        logger.info(f"Calculated Estimated Monthly GCP Spend: ${estimated_monthly:.2f} USD (Daily Total: ${total_daily:.2f} USD)")
+        logger.info(
+            f"Calculated Estimated Monthly GCP Spend: ${estimated_monthly:.2f} USD (Daily Total: ${total_daily:.2f} USD)"
+        )
         return cost_data
 
     def generate_cost_report(self, output_dir: str = ".") -> str:

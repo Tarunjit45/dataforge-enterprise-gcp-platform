@@ -1,7 +1,8 @@
 """Dimensional Star Schema Models & Entity Registry."""
 
 from enum import Enum
-from typing import List, Dict, Optional, Any
+from typing import Any, Dict, List, Optional
+
 from pydantic import BaseModel, Field
 
 
@@ -101,7 +102,12 @@ def get_star_schema_definition() -> Dict[str, Any]:
                 table_name="FACT_TAXI_TRIPS",
                 schema_file="fact_trip",
                 partition_column="trip_date",
-                cluster_columns=["vendor_key", "payment_type_key", "pickup_location_key", "rate_code_key"],
+                cluster_columns=[
+                    "vendor_key",
+                    "payment_type_key",
+                    "pickup_location_key",
+                    "rate_code_key",
+                ],
                 surrogate_key="trip_key",
                 foreign_keys={
                     "vendor_key": "DIM_VENDOR",

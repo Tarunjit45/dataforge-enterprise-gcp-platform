@@ -2,6 +2,7 @@
 
 from datetime import datetime, timezone
 from typing import List, Tuple
+
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as F
 
@@ -29,10 +30,12 @@ class QuarantineRouter:
             Tuple[DataFrame, DataFrame]: (valid_df, quarantine_df)
         """
         if df.count() == 0 or not rules:
-            empty_quarantine = df.withColumn("_failed_rule", F.lit("")) \
-                                 .withColumn("_error_code", F.lit("")) \
-                                 .withColumn("_quarantined_at_utc", F.lit("")) \
-                                 .filter(F.lit(False))
+            empty_quarantine = (
+                df.withColumn("_failed_rule", F.lit(""))
+                .withColumn("_error_code", F.lit(""))
+                .withColumn("_quarantined_at_utc", F.lit(""))
+                .filter(F.lit(False))
+            )
             return df, empty_quarantine
 
         # Add tracking column to flag failure conditions
@@ -43,7 +46,9 @@ class QuarantineRouter:
             if hasattr(rule, "min_val") and rule.min_val is not None:
                 fail_cond = F.col(rule.column).isNull() | (F.col(rule.column) < rule.min_val)
             elif hasattr(rule, "allowed_values") and rule.allowed_values:
-                fail_cond = F.col(rule.column).isNull() | (~F.col(rule.column).isin(rule.allowed_values))
+                fail_cond = F.col(rule.column).isNull() | (
+                    ~F.col(rule.column).isin(rule.allowed_values)
+                )
             else:
                 fail_cond = F.col(rule.column).isNull()
 

@@ -1,6 +1,7 @@
 """Generic PySpark cleaning and deduplication transformations."""
 
 from typing import List
+
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
@@ -26,9 +27,7 @@ def filter_null_keys(df: DataFrame, required_key_cols: List[str]) -> DataFrame:
     return filtered_df
 
 
-def deduplicate_records(
-    df: DataFrame, primary_keys: List[str], order_by_col: str
-) -> DataFrame:
+def deduplicate_records(df: DataFrame, primary_keys: List[str], order_by_col: str) -> DataFrame:
     """Deduplicate records based on primary key group, retaining the latest record.
 
     Args:

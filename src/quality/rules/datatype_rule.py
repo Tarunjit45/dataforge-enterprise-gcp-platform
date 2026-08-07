@@ -31,7 +31,9 @@ class DataTypeRule(BaseRule):
             total_records=total,
             failed_records=failed_count,
             error_code=self.error_code,
-            error_message=f"Column '{self.column}' type is '{actual_type}', expected '{self.expected_type}'."
-            if not passed
-            else "Passed",
+            error_message=(
+                f"Column '{self.column}' type is '{actual_type}', expected '{self.expected_type}'."
+                if not passed
+                else "Passed"
+            ),
         )

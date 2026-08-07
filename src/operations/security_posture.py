@@ -1,9 +1,9 @@
 """Security Posture Audit & CMEK Encryption Verification Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -26,10 +26,26 @@ class SecurityPostureEngine:
         logger.info("Executing GCP Platform Security Posture Audit...")
 
         controls = [
-            {"control": "CMEK Encryption Enforced", "status": "PASSED", "details": "GCS, BigQuery, and AlloyDB bound to Cloud KMS keyrings"},
-            {"control": "Private Google Access Enabled", "status": "PASSED", "details": "VPC Subnet Private Google Access active"},
-            {"control": "Zero Public IP Allocation", "status": "PASSED", "details": "Dataproc nodes and AlloyDB instances have 0 public IPs"},
-            {"control": "TLS 1.3 Transport Encryption", "status": "PASSED", "details": "Enforced in transit"},
+            {
+                "control": "CMEK Encryption Enforced",
+                "status": "PASSED",
+                "details": "GCS, BigQuery, and AlloyDB bound to Cloud KMS keyrings",
+            },
+            {
+                "control": "Private Google Access Enabled",
+                "status": "PASSED",
+                "details": "VPC Subnet Private Google Access active",
+            },
+            {
+                "control": "Zero Public IP Allocation",
+                "status": "PASSED",
+                "details": "Dataproc nodes and AlloyDB instances have 0 public IPs",
+            },
+            {
+                "control": "TLS 1.3 Transport Encryption",
+                "status": "PASSED",
+                "details": "Enforced in transit",
+            },
         ]
         all_passed = all(c["status"] == "PASSED" for c in controls)
 
@@ -40,7 +56,9 @@ class SecurityPostureEngine:
             "security_controls": controls,
         }
 
-        logger.info(f"Security Posture Audit completed. Result: {report['overall_security_passed']}")
+        logger.info(
+            f"Security Posture Audit completed. Result: {report['overall_security_passed']}"
+        )
         return report
 
     def generate_security_report(self, output_dir: str = ".") -> str:

@@ -31,7 +31,9 @@ class BinlogReplicationTracker:
             "gtid_mode": "ON",
             "timestamp_utc": datetime.now(timezone.utc).isoformat(),
         }
-        logger.info(f"Retrieved Master Binlog Status: File '{status['binlog_file']}', Position: {status['binlog_position']}.")
+        logger.info(
+            f"Retrieved Master Binlog Status: File '{status['binlog_file']}', Position: {status['binlog_position']}."
+        )
         return status
 
     def check_replication_lag(self, threshold_seconds: float = 10.0) -> Dict[str, Any]:
@@ -55,8 +57,12 @@ class BinlogReplicationTracker:
         }
 
         if is_ready:
-            logger.info(f"Replication lag is within threshold: {current_lag_seconds:.2f}s <= {threshold_seconds:.2f}s. READY FOR CUTOVER.")
+            logger.info(
+                f"Replication lag is within threshold: {current_lag_seconds:.2f}s <= {threshold_seconds:.2f}s. READY FOR CUTOVER."
+            )
         else:
-            logger.warning(f"Replication lag EXCEEDS threshold: {current_lag_seconds:.2f}s > {threshold_seconds:.2f}s. NOT READY FOR CUTOVER.")
+            logger.warning(
+                f"Replication lag EXCEEDS threshold: {current_lag_seconds:.2f}s > {threshold_seconds:.2f}s. NOT READY FOR CUTOVER."
+            )
 
         return metrics

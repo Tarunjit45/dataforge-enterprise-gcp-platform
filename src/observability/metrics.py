@@ -1,9 +1,9 @@
 """Enterprise Metrics Collector & Performance Registry Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -29,7 +29,9 @@ class MetricsCollector:
             "infrastructure_deployment_duration_seconds": 0.0,
         }
 
-    def record_metric(self, name: str, value: float, labels: Optional[Dict[str, str]] = None) -> None:
+    def record_metric(
+        self, name: str, value: float, labels: Optional[Dict[str, str]] = None
+    ) -> None:
         """Record or update a custom metric value.
 
         Args:

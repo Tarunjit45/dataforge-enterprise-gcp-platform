@@ -18,9 +18,7 @@ class IngestionPayload:
     content_type: str
     file_size_bytes: int
     sha256_checksum: str
-    download_timestamp: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    download_timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 @dataclass

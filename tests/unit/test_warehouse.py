@@ -2,6 +2,7 @@
 
 from pathlib import Path
 from unittest.mock import MagicMock
+
 import pytest
 
 from src.common.exceptions.base import ConfigurationError, QualityCheckError
@@ -134,7 +135,9 @@ def test_gold_warehouse_loader_dq_rejection():
     mock_client = MagicMock()
     loader = GoldWarehouseLoader(bq_client=mock_client)
 
-    with pytest.raises(QualityCheckError, match="Data Quality score 65.00% is below Gold Warehouse threshold"):
+    with pytest.raises(
+        QualityCheckError, match="Data Quality score 65.00% is below Gold Warehouse threshold"
+    ):
         loader.load_incremental_fact(
             batch_id="batch_fail",
             source_execution_id="exec_fail",

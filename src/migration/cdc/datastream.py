@@ -51,9 +51,7 @@ class DatastreamCDCManager:
                             }
                         ]
                     },
-                    "cdc_method": {
-                        "binlog_cdc_method": {}
-                    },
+                    "cdc_method": {"binlog_cdc_method": {}},
                 },
             },
             "destination_config": {

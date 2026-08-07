@@ -62,6 +62,8 @@ def get_settings() -> PlatformConfig:
             with open(config_file, "r", encoding="utf-8") as f:
                 config_data = json.load(f)
         except Exception as e:
-            raise ConfigurationError(f"Failed to parse configuration file {config_file}: {e}") from e
+            raise ConfigurationError(
+                f"Failed to parse configuration file {config_file}: {e}"
+            ) from e
 
     return PlatformConfig(**config_data)

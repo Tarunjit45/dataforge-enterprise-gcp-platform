@@ -47,7 +47,9 @@ class ReferentialIntegrityRule(BaseRule):
             total_records=total,
             failed_records=failed_count,
             error_code=self.error_code,
-            error_message=f"Found {failed_count} orphaned foreign key records in column '{self.column}'."
-            if not passed
-            else "Passed",
+            error_message=(
+                f"Found {failed_count} orphaned foreign key records in column '{self.column}'."
+                if not passed
+                else "Passed"
+            ),
         )

@@ -1,6 +1,7 @@
 """Multi-dimensional Data Quality Scoring Engine."""
 
 from typing import List
+
 from src.quality.models.quality_result import ProfileResult, QualityScore, RuleResult
 
 
@@ -25,7 +26,9 @@ class QualityScorer:
         """
         # Completeness Calculation
         if profile and profile.column_profiles:
-            avg_null_pct = sum(p.null_percentage for p in profile.column_profiles.values()) / len(profile.column_profiles)
+            avg_null_pct = sum(p.null_percentage for p in profile.column_profiles.values()) / len(
+                profile.column_profiles
+            )
             completeness = max(0.0, 100.0 - avg_null_pct)
         else:
             completeness = 100.0
@@ -44,9 +47,7 @@ class QualityScorer:
             validity = 100.0
 
         # Overall Weighted Score: 35% Completeness + 25% Uniqueness + 40% Validity
-        overall_score = round(
-            (0.35 * completeness) + (0.25 * uniqueness) + (0.40 * validity), 2
-        )
+        overall_score = round((0.35 * completeness) + (0.25 * uniqueness) + (0.40 * validity), 2)
 
         if overall_score >= 90.0:
             grade = "A"

@@ -1,6 +1,7 @@
 """Allowed Values Rule implementation."""
 
-from typing import List
+from typing import Any, List
+
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as F
 
@@ -42,7 +43,9 @@ class AllowedValuesRule(BaseRule):
             total_records=total,
             failed_records=failed_count,
             error_code=self.error_code,
-            error_message=f"Column '{self.column}' has {failed_count} records not in allowed set {self.allowed_values}."
-            if not passed
-            else "Passed",
+            error_message=(
+                f"Column '{self.column}' has {failed_count} records not in allowed set {self.allowed_values}."
+                if not passed
+                else "Passed"
+            ),
         )

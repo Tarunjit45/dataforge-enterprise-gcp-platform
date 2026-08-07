@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass, field
 from typing import List
+
 from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType
 
@@ -36,7 +37,9 @@ class SchemaValidator:
             SchemaValidationResult: Detailed validation outcome.
         """
         actual_fields = {field.name: field.dataType.simpleString() for field in df.schema.fields}
-        expected_fields = {field.name: field.dataType.simpleString() for field in expected_schema.fields}
+        expected_fields = {
+            field.name: field.dataType.simpleString() for field in expected_schema.fields
+        }
 
         missing = [col for col in expected_fields if col not in actual_fields]
         unexpected = [col for col in actual_fields if col not in expected_fields]

@@ -1,10 +1,11 @@
 """Silver Parquet Writer and ETL Metrics Collector."""
 
+import time
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from pathlib import Path
-import time
 from typing import List, Optional
+
 from pyspark.sql import DataFrame
 
 from src.common.logging.logger import get_logger
@@ -25,9 +26,7 @@ class ETLMetrics:
     duplicate_records: int
     partition_count: int
     processing_duration_seconds: float
-    timestamp_utc: str = field(
-        default_factory=lambda: datetime.now(timezone.utc).isoformat()
-    )
+    timestamp_utc: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 
 class SilverWriter:

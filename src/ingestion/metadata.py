@@ -11,7 +11,9 @@ class MetadataGenerator:
     """Helper class for generating standardized metadata and manifest payloads."""
 
     @staticmethod
-    def create_metadata(payload: IngestionPayload, extra_context: Dict[str, Any] = None) -> Dict[str, Any]:
+    def create_metadata(
+        payload: IngestionPayload, extra_context: Dict[str, Any] = None
+    ) -> Dict[str, Any]:
         """Generate standardized ingestion metadata dictionary.
 
         Args:

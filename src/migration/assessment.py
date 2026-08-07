@@ -7,7 +7,13 @@ from typing import Any, Dict, List, Optional
 from src.common.config.settings import get_settings
 from src.common.exceptions.base import PipelineError
 from src.common.logging.logger import get_logger
-from src.migration.metadata import ColumnMetadata, DatabaseInventory, ForeignKeyMetadata, IndexMetadata, TableSchema
+from src.migration.metadata import (
+    ColumnMetadata,
+    DatabaseInventory,
+    ForeignKeyMetadata,
+    IndexMetadata,
+    TableSchema,
+)
 
 logger = get_logger(__name__)
 
@@ -16,18 +22,42 @@ class DatabaseAssessmentEngine:
     """Database Assessment Engine analyzing MySQL schema compatibility for AlloyDB migration."""
 
     UNSUPPORTED_FEATURES_CATALOG = {
-        "ENGINE=MyISAM": {"weight": 5.0, "hours": 4.0, "reason": "MyISAM storage engine lacks ACID transactions; convert to InnoDB prior to migration."},
-        "FULLTEXT": {"weight": 3.0, "hours": 2.0, "reason": "MySQL FULLTEXT index requires conversion to PostgreSQL tsvector / GIN index."},
-        "SPATIAL": {"weight": 4.0, "hours": 3.0, "reason": "Spatial index requires PostGIS extension syntax on AlloyDB."},
-        "ZEROFILL": {"weight": 1.0, "hours": 0.5, "reason": "ZEROFILL display format is not supported in PostgreSQL; handle formatting at application layer."},
-        "ON UPDATE CURRENT_TIMESTAMP": {"weight": 2.0, "hours": 1.0, "reason": "Auto-update timestamps require custom PostgreSQL trigger function."},
+        "ENGINE=MyISAM": {
+            "weight": 5.0,
+            "hours": 4.0,
+            "reason": "MyISAM storage engine lacks ACID transactions; convert to InnoDB prior to migration.",
+        },
+        "FULLTEXT": {
+            "weight": 3.0,
+            "hours": 2.0,
+            "reason": "MySQL FULLTEXT index requires conversion to PostgreSQL tsvector / GIN index.",
+        },
+        "SPATIAL": {
+            "weight": 4.0,
+            "hours": 3.0,
+            "reason": "Spatial index requires PostGIS extension syntax on AlloyDB.",
+        },
+        "ZEROFILL": {
+            "weight": 1.0,
+            "hours": 0.5,
+            "reason": "ZEROFILL display format is not supported in PostgreSQL; handle formatting at application layer.",
+        },
+        "ON UPDATE CURRENT_TIMESTAMP": {
+            "weight": 2.0,
+            "hours": 1.0,
+            "reason": "Auto-update timestamps require custom PostgreSQL trigger function.",
+        },
     }
 
     def __init__(self, mysql_client: Any = None):
         self.settings = get_settings()
         self.mysql_client = mysql_client
 
-    def assess_database(self, database_inventory: Optional[DatabaseInventory] = None, database_name: str = "production_db") -> DatabaseInventory:
+    def assess_database(
+        self,
+        database_inventory: Optional[DatabaseInventory] = None,
+        database_name: str = "production_db",
+    ) -> DatabaseInventory:
         """Analyze MySQL database inventory and assess compatibility with AlloyDB for PostgreSQL.
 
         Args:
@@ -104,16 +134,56 @@ class DatabaseAssessmentEngine:
                 estimated_rows=50000,
                 size_bytes=10485760,
                 columns=[
-                    ColumnMetadata(name="id", data_type="int", full_type="int(11)", is_nullable=False, is_primary_key=True, is_auto_increment=True),
-                    ColumnMetadata(name="first_name", data_type="varchar", full_type="varchar(100)", is_nullable=True),
-                    ColumnMetadata(name="last_name", data_type="varchar", full_type="varchar(100)", is_nullable=True),
-                    ColumnMetadata(name="email", data_type="varchar", full_type="varchar(255)", is_nullable=True),
-                    ColumnMetadata(name="is_active", data_type="tinyint", full_type="tinyint(1)", is_nullable=False, default_value="1"),
-                    ColumnMetadata(name="created_at", data_type="datetime", full_type="datetime", is_nullable=False),
+                    ColumnMetadata(
+                        name="id",
+                        data_type="int",
+                        full_type="int(11)",
+                        is_nullable=False,
+                        is_primary_key=True,
+                        is_auto_increment=True,
+                    ),
+                    ColumnMetadata(
+                        name="first_name",
+                        data_type="varchar",
+                        full_type="varchar(100)",
+                        is_nullable=True,
+                    ),
+                    ColumnMetadata(
+                        name="last_name",
+                        data_type="varchar",
+                        full_type="varchar(100)",
+                        is_nullable=True,
+                    ),
+                    ColumnMetadata(
+                        name="email",
+                        data_type="varchar",
+                        full_type="varchar(255)",
+                        is_nullable=True,
+                    ),
+                    ColumnMetadata(
+                        name="is_active",
+                        data_type="tinyint",
+                        full_type="tinyint(1)",
+                        is_nullable=False,
+                        default_value="1",
+                    ),
+                    ColumnMetadata(
+                        name="created_at",
+                        data_type="datetime",
+                        full_type="datetime",
+                        is_nullable=False,
+                    ),
                 ],
                 indexes=[
-                    IndexMetadata(index_name="PRIMARY", table_name="customers", columns=["id"], is_unique=True),
-                    IndexMetadata(index_name="idx_cust_email", table_name="customers", columns=["email"], is_unique=False),
+                    IndexMetadata(
+                        index_name="PRIMARY", table_name="customers", columns=["id"], is_unique=True
+                    ),
+                    IndexMetadata(
+                        index_name="idx_cust_email",
+                        table_name="customers",
+                        columns=["email"],
+                        is_unique=False,
+                    ),
                 ],
             ),
             "vendors": TableSchema(
@@ -122,12 +192,31 @@ class DatabaseAssessmentEngine:
                 estimated_rows=10,
                 size_bytes=65536,
                 columns=[
-                    ColumnMetadata(name="id", data_type="int", full_type="int(11)", is_nullable=False, is_primary_key=True, is_auto_increment=True),
-                    ColumnMetadata(name="vendor_name", data_type="varchar", full_type="varchar(200)", is_nullable=False),
-                    ColumnMetadata(name="contact_email", data_type="varchar", full_type="varchar(255)", is_nullable=True),
+                    ColumnMetadata(
+                        name="id",
+                        data_type="int",
+                        full_type="int(11)",
+                        is_nullable=False,
+                        is_primary_key=True,
+                        is_auto_increment=True,
+                    ),
+                    ColumnMetadata(
+                        name="vendor_name",
+                        data_type="varchar",
+                        full_type="varchar(200)",
+                        is_nullable=False,
+                    ),
+                    ColumnMetadata(
+                        name="contact_email",
+                        data_type="varchar",
+                        full_type="varchar(255)",
+                        is_nullable=True,
+                    ),
                 ],
                 indexes=[
-                    IndexMetadata(index_name="PRIMARY", table_name="vendors", columns=["id"], is_unique=True),
+                    IndexMetadata(
+                        index_name="PRIMARY", table_name="vendors", columns=["id"], is_unique=True
+                    ),
                 ],
             ),
             "locations": TableSchema(
@@ -136,12 +225,31 @@ class DatabaseAssessmentEngine:
                 estimated_rows=300,
                 size_bytes=524288,
                 columns=[
-                    ColumnMetadata(name="id", data_type="int", full_type="int(11)", is_nullable=False, is_primary_key=True, is_auto_increment=True),
-                    ColumnMetadata(name="borough", data_type="varchar", full_type="varchar(100)", is_nullable=False),
-                    ColumnMetadata(name="zone", data_type="varchar", full_type="varchar(150)", is_nullable=False),
+                    ColumnMetadata(
+                        name="id",
+                        data_type="int",
+                        full_type="int(11)",
+                        is_nullable=False,
+                        is_primary_key=True,
+                        is_auto_increment=True,
+                    ),
+                    ColumnMetadata(
+                        name="borough",
+                        data_type="varchar",
+                        full_type="varchar(100)",
+                        is_nullable=False,
+                    ),
+                    ColumnMetadata(
+                        name="zone",
+                        data_type="varchar",
+                        full_type="varchar(150)",
+                        is_nullable=False,
+                    ),
                 ],
                 indexes=[
-                    IndexMetadata(index_name="PRIMARY", table_name="locations", columns=["id"], is_unique=True),
+                    IndexMetadata(
+                        index_name="PRIMARY", table_name="locations", columns=["id"], is_unique=True
+                    ),
                 ],
             ),
             "trips": TableSchema(
@@ -150,29 +258,92 @@ class DatabaseAssessmentEngine:
                 estimated_rows=99690,
                 size_bytes=41418752,
                 columns=[
-                    ColumnMetadata(name="id", data_type="bigint", full_type="bigint(20)", is_nullable=False, is_primary_key=True, is_auto_increment=True),
-                    ColumnMetadata(name="vendor_id", data_type="int", full_type="int(11)", is_nullable=False),
-                    ColumnMetadata(name="pickup_location_id", data_type="int", full_type="int(11)", is_nullable=False),
-                    ColumnMetadata(name="dropoff_location_id", data_type="int", full_type="int(11)", is_nullable=False),
-                    ColumnMetadata(name="customer_id", data_type="int", full_type="int(11)", is_nullable=True),
-                    ColumnMetadata(name="fare_amount", data_type="decimal", full_type="decimal(10,2)", is_nullable=False),
-                    ColumnMetadata(name="total_amount", data_type="decimal", full_type="decimal(10,2)", is_nullable=False),
-                    ColumnMetadata(name="pickup_datetime", data_type="datetime", full_type="datetime", is_nullable=False),
+                    ColumnMetadata(
+                        name="id",
+                        data_type="bigint",
+                        full_type="bigint(20)",
+                        is_nullable=False,
+                        is_primary_key=True,
+                        is_auto_increment=True,
+                    ),
+                    ColumnMetadata(
+                        name="vendor_id", data_type="int", full_type="int(11)", is_nullable=False
+                    ),
+                    ColumnMetadata(
+                        name="pickup_location_id",
+                        data_type="int",
+                        full_type="int(11)",
+                        is_nullable=False,
+                    ),
+                    ColumnMetadata(
+                        name="dropoff_location_id",
+                        data_type="int",
+                        full_type="int(11)",
+                        is_nullable=False,
+                    ),
+                    ColumnMetadata(
+                        name="customer_id", data_type="int", full_type="int(11)", is_nullable=True
+                    ),
+                    ColumnMetadata(
+                        name="fare_amount",
+                        data_type="decimal",
+                        full_type="decimal(10,2)",
+                        is_nullable=False,
+                    ),
+                    ColumnMetadata(
+                        name="total_amount",
+                        data_type="decimal",
+                        full_type="decimal(10,2)",
+                        is_nullable=False,
+                    ),
+                    ColumnMetadata(
+                        name="pickup_datetime",
+                        data_type="datetime",
+                        full_type="datetime",
+                        is_nullable=False,
+                    ),
                 ],
                 indexes=[
-                    IndexMetadata(index_name="PRIMARY", table_name="trips", columns=["id"], is_unique=True),
-                    IndexMetadata(index_name="idx_trips_vendor", table_name="trips", columns=["vendor_id"], is_unique=False),
+                    IndexMetadata(
+                        index_name="PRIMARY", table_name="trips", columns=["id"], is_unique=True
+                    ),
+                    IndexMetadata(
+                        index_name="idx_trips_vendor",
+                        table_name="trips",
+                        columns=["vendor_id"],
+                        is_unique=False,
+                    ),
                 ],
                 foreign_keys=[
-                    ForeignKeyMetadata(constraint_name="fk_trips_vendor", source_table="trips", source_column="vendor_id", target_table="vendors", target_column="id"),
-                    ForeignKeyMetadata(constraint_name="fk_trips_pu_loc", source_table="trips", source_column="pickup_location_id", target_table="locations", target_column="id"),
-                    ForeignKeyMetadata(constraint_name="fk_trips_do_loc", source_table="trips", source_column="dropoff_location_id", target_table="locations", target_column="id"),
+                    ForeignKeyMetadata(
+                        constraint_name="fk_trips_vendor",
+                        source_table="trips",
+                        source_column="vendor_id",
+                        target_table="vendors",
+                        target_column="id",
+                    ),
+                    ForeignKeyMetadata(
+                        constraint_name="fk_trips_pu_loc",
+                        source_table="trips",
+                        source_column="pickup_location_id",
+                        target_table="locations",
+                        target_column="id",
+                    ),
+                    ForeignKeyMetadata(
+                        constraint_name="fk_trips_do_loc",
+                        source_table="trips",
+                        source_column="dropoff_location_id",
+                        target_table="locations",
+                        target_column="id",
+                    ),
                 ],
             ),
         }
         return inventory
 
-    def generate_assessment_reports(self, inventory: DatabaseInventory, output_dir: str = ".") -> Dict[str, str]:
+    def generate_assessment_reports(
+        self, inventory: DatabaseInventory, output_dir: str = "."
+    ) -> Dict[str, str]:
         """Output migration_assessment.json and compatibility_report.json / Markdown.
 
         Args:
@@ -221,18 +392,26 @@ class DatabaseAssessmentEngine:
             pk = [c.name for c in tbl.columns if c.is_primary_key]
             pk_str = ", ".join(pk) if pk else "None"
             size_kb = round(tbl.size_bytes / 1024, 1)
-            md_lines.append(f"| `{name}` | `{tbl.storage_engine}` | {tbl.estimated_rows:,} | {size_kb} | `{pk_str}` |")
+            md_lines.append(
+                f"| `{name}` | `{tbl.storage_engine}` | {tbl.estimated_rows:,} | {size_kb} | `{pk_str}` |"
+            )
 
-        md_lines.extend([
-            "",
-            "## ⚠️ Unsupported Features & Recommendations",
-        ])
+        md_lines.extend(
+            [
+                "",
+                "## ⚠️ Unsupported Features & Recommendations",
+            ]
+        )
         if inventory.unsupported_features:
             for feat in inventory.unsupported_features:
-                info = self.UNSUPPORTED_FEATURES_CATALOG.get(feat, {"reason": "Unsupported feature detected."})
+                info = self.UNSUPPORTED_FEATURES_CATALOG.get(
+                    feat, {"reason": "Unsupported feature detected."}
+                )
                 md_lines.append(f"- **{feat}**: {info['reason']}")
         else:
-            md_lines.append("- No critical incompatible MySQL features detected! Standard automated conversion applicable.")
+            md_lines.append(
+                "- No critical incompatible MySQL features detected! Standard automated conversion applicable."
+            )
 
         with open(md_report_path, "w", encoding="utf-8") as f:
             f.write("\n".join(md_lines))

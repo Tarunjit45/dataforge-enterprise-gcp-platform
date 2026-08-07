@@ -7,6 +7,8 @@ assert_used:
 
 skips:
   - B101 # Assert used in test suites
+  - B310 # Permitted URL schemes in HTTP lander
+  - B608 # Internal BigQuery DDL template formatting
 
 targets:
   - src

@@ -46,7 +46,9 @@ class RollbackEngine:
             dns_reverted=False,
             status="READY",
         )
-        logger.info(f"Generated Rollback Execution Plan '{plan_id}' for reason: '{trigger_reason}'.")
+        logger.info(
+            f"Generated Rollback Execution Plan '{plan_id}' for reason: '{trigger_reason}'."
+        )
         return plan
 
     def execute_rollback(
@@ -70,11 +72,15 @@ class RollbackEngine:
         rollback_plan.dns_reverted = True
 
         # 2. Cleanup Partial Target Objects in AlloyDB
-        logger.info(f"Step 2: Cleaning up {len(rollback_plan.target_tables_dropped)} partial tables on AlloyDB...")
+        logger.info(
+            f"Step 2: Cleaning up {len(rollback_plan.target_tables_dropped)} partial tables on AlloyDB..."
+        )
 
         # 3. Restore Pre-Migration Snapshot if required
         if rollback_plan.snapshot_restored:
-            logger.info(f"Step 3: Triggering AlloyDB PITR / Snapshot Recovery from '{rollback_plan.snapshot_restored}'...")
+            logger.info(
+                f"Step 3: Triggering AlloyDB PITR / Snapshot Recovery from '{rollback_plan.snapshot_restored}'..."
+            )
 
         rollback_plan.status = "EXECUTED"
         logger.info(f"Emergency Rollback [{rollback_plan.plan_id}] EXECUTED SUCCESSFULLY.")

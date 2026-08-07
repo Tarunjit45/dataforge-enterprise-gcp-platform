@@ -1,7 +1,7 @@
 """High-Concurrency Load Testing Engine."""
 
-from typing import Any, Dict, Optional
 from datetime import datetime, timezone
+from typing import Any, Dict, Optional
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger

@@ -67,7 +67,9 @@ class SchemaConverter:
                             if isinstance(v, dict) and "target" in v:
                                 self.type_mappings[k.lower()] = v["target"]
             except Exception as e:
-                logger.warning(f"Could not parse datatype_mapping.yaml ({e}). Using built-in mappings.")
+                logger.warning(
+                    f"Could not parse datatype_mapping.yaml ({e}). Using built-in mappings."
+                )
 
     def convert_column_type(self, raw_type: str, full_type: str = "") -> str:
         """Convert MySQL data type string to PostgreSQL / AlloyDB equivalent.
@@ -114,7 +116,7 @@ class SchemaConverter:
             f"-- Source Database: {inventory.database_name}",
             f"-- Target Schema: {target_schema}",
             f"-- =============================================================================",
-            f"CREATE SCHEMA IF NOT EXISTS \"{target_schema}\";",
+            f'CREATE SCHEMA IF NOT EXISTS "{target_schema}";',
             "",
         ]
 
@@ -124,7 +126,7 @@ class SchemaConverter:
         converted_fks = 0
 
         for table_name, table in inventory.tables.items():
-            lines: List[str] = [f"CREATE TABLE IF NOT EXISTS \"{target_schema}\".\"{table_name}\" ("]
+            lines: List[str] = [f'CREATE TABLE IF NOT EXISTS "{target_schema}"."{table_name}" (']
             col_defs: List[str] = []
             pk_cols: List[str] = []
 
@@ -146,10 +148,10 @@ class SchemaConverter:
                         def_val = f"'{def_val}'"
                     default_str = f" DEFAULT {def_val}"
 
-                col_defs.append(f"    \"{col.name}\" {col_type}{identity_str}{nullable}{default_str}")
+                col_defs.append(f'    "{col.name}" {col_type}{identity_str}{nullable}{default_str}')
 
                 if col.is_primary_key:
-                    pk_cols.append(f"\"{col.name}\"")
+                    pk_cols.append(f'"{col.name}"')
 
             if pk_cols:
                 pk_str = ", ".join(pk_cols)
@@ -168,8 +170,8 @@ class SchemaConverter:
                     continue
                 converted_indexes += 1
                 unique_str = "UNIQUE " if idx.is_unique else ""
-                idx_cols = ", ".join([f"\"{c}\"" for c in idx.columns])
-                idx_ddl = f"CREATE {unique_str}INDEX IF NOT EXISTS \"{idx.index_name}\" ON \"{target_schema}\".\"{table_name}\" ({idx_cols});"
+                idx_cols = ", ".join([f'"{c}"' for c in idx.columns])
+                idx_ddl = f'CREATE {unique_str}INDEX IF NOT EXISTS "{idx.index_name}" ON "{target_schema}"."{table_name}" ({idx_cols});'
                 ddl_statements.append(idx_ddl)
 
             if table.indexes:
@@ -179,10 +181,10 @@ class SchemaConverter:
             for fk in table.foreign_keys:
                 converted_fks += 1
                 fk_ddl = (
-                    f"ALTER TABLE \"{target_schema}\".\"{table_name}\" "
-                    f"ADD CONSTRAINT \"{fk.constraint_name}\" "
-                    f"FOREIGN KEY (\"{fk.source_column}\") "
-                    f"REFERENCES \"{target_schema}\".\"{fk.target_table}\" (\"{fk.target_column}\");"
+                    f'ALTER TABLE "{target_schema}"."{table_name}" '
+                    f'ADD CONSTRAINT "{fk.constraint_name}" '
+                    f'FOREIGN KEY ("{fk.source_column}") '
+                    f'REFERENCES "{target_schema}"."{fk.target_table}" ("{fk.target_column}");'
                 )
                 ddl_statements.append(fk_ddl)
 
@@ -235,7 +237,9 @@ class SchemaConverter:
         with open(report_file, "w", encoding="utf-8") as f:
             json.dump(conversion_report, f, indent=2)
 
-        logger.info(f"Saved conversion DDL to '{sql_file.resolve()}' and report to '{report_file.resolve()}'.")
+        logger.info(
+            f"Saved conversion DDL to '{sql_file.resolve()}' and report to '{report_file.resolve()}'."
+        )
         return {
             "converted_sql": str(sql_file.resolve()),
             "conversion_report_json": str(report_file.resolve()),

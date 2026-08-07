@@ -1,6 +1,7 @@
 """Unit tests for custom exception hierarchy."""
 
 import pytest
+
 from src.common.exceptions.base import (
     CloudStorageError,
     ConfigurationError,

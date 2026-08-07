@@ -1,6 +1,7 @@
 """Unique / Duplicate Rule implementation."""
 
 from typing import List
+
 from pyspark.sql import DataFrame
 
 from src.quality.models.quality_result import RuleResult
@@ -42,7 +43,7 @@ class UniqueRule(BaseRule):
             total_records=total,
             failed_records=failed_count,
             error_code=self.error_code,
-            error_message=f"Duplicate records found: {failed_count} duplicates."
-            if not passed
-            else "Passed",
+            error_message=(
+                f"Duplicate records found: {failed_count} duplicates." if not passed else "Passed"
+            ),
         )

@@ -1,9 +1,9 @@
 """CIS GCP Benchmark Compliance Audit Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -26,11 +26,31 @@ class ComplianceAuditEngine:
         logger.info("Executing CIS GCP Benchmark Compliance Evaluation...")
 
         sections = [
-            {"section": "CIS 1.x Identity and Access Management", "score_percent": 100.0, "status": "COMPLIANT"},
-            {"section": "CIS 2.x Logging and Monitoring", "score_percent": 100.0, "status": "COMPLIANT"},
-            {"section": "CIS 3.x Networking Security", "score_percent": 100.0, "status": "COMPLIANT"},
-            {"section": "CIS 4.x Virtual Machines and Compute", "score_percent": 100.0, "status": "COMPLIANT"},
-            {"section": "CIS 5.x Storage and Database Security", "score_percent": 100.0, "status": "COMPLIANT"},
+            {
+                "section": "CIS 1.x Identity and Access Management",
+                "score_percent": 100.0,
+                "status": "COMPLIANT",
+            },
+            {
+                "section": "CIS 2.x Logging and Monitoring",
+                "score_percent": 100.0,
+                "status": "COMPLIANT",
+            },
+            {
+                "section": "CIS 3.x Networking Security",
+                "score_percent": 100.0,
+                "status": "COMPLIANT",
+            },
+            {
+                "section": "CIS 4.x Virtual Machines and Compute",
+                "score_percent": 100.0,
+                "status": "COMPLIANT",
+            },
+            {
+                "section": "CIS 5.x Storage and Database Security",
+                "score_percent": 100.0,
+                "status": "COMPLIANT",
+            },
         ]
         overall_score = 100.0
 

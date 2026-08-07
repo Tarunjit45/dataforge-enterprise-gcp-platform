@@ -1,7 +1,7 @@
 """Multi-report JSON generator for Data Quality audits."""
 
-from dataclasses import asdict
 import json
+from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Dict
 
@@ -69,7 +69,9 @@ class QualityReporter:
             "passed_records": quality_result.passed_records,
             "failed_records": quality_result.failed_records,
             "quality_grade": quality_result.score.quality_grade if quality_result.score else "N/A",
-            "overall_score": quality_result.score.overall_quality_score if quality_result.score else 0.0,
+            "overall_score": (
+                quality_result.score.overall_quality_score if quality_result.score else 0.0
+            ),
             "schema_drift_detected": schema_drift.has_drift,
             "duration_seconds": quality_result.processing_duration_seconds,
             "generated_at_utc": quality_result.generated_at_utc,
@@ -79,5 +81,7 @@ class QualityReporter:
             json.dump(exec_summary, f, indent=2)
         report_files["execution_summary"] = e_report_path
 
-        logger.info(f"Generated {len(report_files)} Quality JSON reports in directory: {output_dir}")
+        logger.info(
+            f"Generated {len(report_files)} Quality JSON reports in directory: {output_dir}"
+        )
         return report_files

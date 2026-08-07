@@ -79,7 +79,9 @@ class DataProfiler:
                 mean_val=mean_val,
             )
 
-        logger.info(f"Completed statistical profiling for dataset '{dataset_name}' ({total_rows} rows, {total_cols} cols).")
+        logger.info(
+            f"Completed statistical profiling for dataset '{dataset_name}' ({total_rows} rows, {total_cols} cols)."
+        )
 
         return ProfileResult(
             dataset_name=dataset_name,

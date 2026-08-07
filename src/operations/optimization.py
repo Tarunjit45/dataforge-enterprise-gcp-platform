@@ -1,9 +1,9 @@
 """Cost & Performance Optimization Recommendation Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -26,12 +26,42 @@ class OptimizationEngine:
         logger.info("Generating Cost & Performance Optimization Recommendations...")
 
         recs = [
-            {"category": "Partition Optimization", "item": "FACT_TAXI_TRIPS", "action": "Enforce require_partition_filter=true on BigQuery daily trip_date partitions", "estimated_savings": "30% BQ scan cost"},
-            {"category": "Cluster Optimization", "item": "FACT_TAXI_TRIPS", "action": "Cluster by vendor_key, payment_type_key, pickup_location_key, rate_code_key", "estimated_savings": "40% scan reduction"},
-            {"category": "Spot VM Usage", "item": "Dataproc Clusters", "action": "Utilize Preemptible/Spot VMs for secondary Dataproc worker nodes", "estimated_savings": "60% compute cost"},
-            {"category": "Lifecycle Rules", "item": "GCS Buckets", "action": "Transition raw_bronze files to Nearline after 30 days and Coldline after 90 days", "estimated_savings": "50% GCS storage cost"},
-            {"category": "Storage Tiering", "item": "AlloyDB Backups", "action": "Set quantity_based_expiry to 4 weekly backups", "estimated_savings": "20% backup cost"},
-            {"category": "Query Optimization", "item": "BigQuery Views", "action": "Use Materialized Views mv_executive_summary_mart and mv_geographic_demand_mart", "estimated_savings": "80% dashboard query latency"},
+            {
+                "category": "Partition Optimization",
+                "item": "FACT_TAXI_TRIPS",
+                "action": "Enforce require_partition_filter=true on BigQuery daily trip_date partitions",
+                "estimated_savings": "30% BQ scan cost",
+            },
+            {
+                "category": "Cluster Optimization",
+                "item": "FACT_TAXI_TRIPS",
+                "action": "Cluster by vendor_key, payment_type_key, pickup_location_key, rate_code_key",
+                "estimated_savings": "40% scan reduction",
+            },
+            {
+                "category": "Spot VM Usage",
+                "item": "Dataproc Clusters",
+                "action": "Utilize Preemptible/Spot VMs for secondary Dataproc worker nodes",
+                "estimated_savings": "60% compute cost",
+            },
+            {
+                "category": "Lifecycle Rules",
+                "item": "GCS Buckets",
+                "action": "Transition raw_bronze files to Nearline after 30 days and Coldline after 90 days",
+                "estimated_savings": "50% GCS storage cost",
+            },
+            {
+                "category": "Storage Tiering",
+                "item": "AlloyDB Backups",
+                "action": "Set quantity_based_expiry to 4 weekly backups",
+                "estimated_savings": "20% backup cost",
+            },
+            {
+                "category": "Query Optimization",
+                "item": "BigQuery Views",
+                "action": "Use Materialized Views mv_executive_summary_mart and mv_geographic_demand_mart",
+                "estimated_savings": "80% dashboard query latency",
+            },
         ]
 
         report = {

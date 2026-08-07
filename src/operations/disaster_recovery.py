@@ -1,9 +1,9 @@
 """Multi-Region Disaster Recovery (DR) Simulation & Validation Engine."""
 
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from datetime import datetime, timezone
 
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
@@ -33,7 +33,9 @@ class DisasterRecoveryEngine:
         Returns:
             Dict[str, Any]: Disaster recovery simulation report.
         """
-        logger.info(f"Simulating Regional Failover: '{self.primary_region}' -> '{self.secondary_region}'...")
+        logger.info(
+            f"Simulating Regional Failover: '{self.primary_region}' -> '{self.secondary_region}'..."
+        )
 
         observed_rpo_minutes = 2.1
         observed_rto_minutes = 8.4
@@ -67,7 +69,9 @@ class DisasterRecoveryEngine:
         }
 
         if overall_passed:
-            logger.info(f"DR Simulation PASSED. Observed RPO: {observed_rpo_minutes}m, RTO: {observed_rto_minutes}m.")
+            logger.info(
+                f"DR Simulation PASSED. Observed RPO: {observed_rpo_minutes}m, RTO: {observed_rto_minutes}m."
+            )
         else:
             logger.error("DR Simulation FAILED RPO/RTO target thresholds!")
 

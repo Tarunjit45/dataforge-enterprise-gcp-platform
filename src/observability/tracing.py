@@ -38,7 +38,11 @@ class TelemetrySpan:
             "correlation_id": self.correlation_id,
             "start_time": self.start_time.isoformat(),
             "end_time": self.end_time.isoformat() if self.end_time else None,
-            "duration_ms": (self.end_time - self.start_time).total_seconds() * 1000.0 if self.end_time else None,
+            "duration_ms": (
+                (self.end_time - self.start_time).total_seconds() * 1000.0
+                if self.end_time
+                else None
+            ),
             "attributes": self.attributes,
         }
 

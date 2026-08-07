@@ -1,6 +1,7 @@
 """GCP Cloud Logging Exporter Engine."""
 
 from typing import Any, Dict, Optional
+
 from src.common.config.settings import get_settings
 from src.observability.logging import TelemetryLogger
 
@@ -14,7 +15,9 @@ class CloudLoggingExporter:
         self.settings = get_settings()
         self.client = logging_client
 
-    def export_log_entry(self, log_payload: Dict[str, Any], log_name: str = "pipeline-execution") -> bool:
+    def export_log_entry(
+        self, log_payload: Dict[str, Any], log_name: str = "pipeline-execution"
+    ) -> bool:
         """Submit a structured JSON log entry to GCP Cloud Logging.
 
         Args:

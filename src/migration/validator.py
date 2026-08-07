@@ -46,8 +46,12 @@ class MigrationValidator:
         target_count = len(target_data)
         count_match = source_count == target_count
 
-        source_checksum = self.checksum_engine.compute_table_checksum(source_data, excluded_keys=excluded_keys)
-        target_checksum = self.checksum_engine.compute_table_checksum(target_data, excluded_keys=excluded_keys)
+        source_checksum = self.checksum_engine.compute_table_checksum(
+            source_data, excluded_keys=excluded_keys
+        )
+        target_checksum = self.checksum_engine.compute_table_checksum(
+            target_data, excluded_keys=excluded_keys
+        )
         checksum_match = self.checksum_engine.compare_checksums(source_checksum, target_checksum)
 
         # Sample Mismatch Comparison
@@ -55,8 +59,12 @@ class MigrationValidator:
         min_len = min(source_count, target_count)
         sample_size = min(100, min_len)
         for i in range(sample_size):
-            src_hash = self.checksum_engine.compute_row_hash(source_data[i], excluded_keys=excluded_keys)
-            tgt_hash = self.checksum_engine.compute_row_hash(target_data[i], excluded_keys=excluded_keys)
+            src_hash = self.checksum_engine.compute_row_hash(
+                source_data[i], excluded_keys=excluded_keys
+            )
+            tgt_hash = self.checksum_engine.compute_row_hash(
+                target_data[i], excluded_keys=excluded_keys
+            )
             if src_hash != tgt_hash:
                 sample_mismatches += 1
 
@@ -76,7 +84,9 @@ class MigrationValidator:
         )
 
         if is_passed:
-            logger.info(f"Validation PASSED for table '{table_name}'. Source Rows: {source_count}, Target Rows: {target_count}.")
+            logger.info(
+                f"Validation PASSED for table '{table_name}'. Source Rows: {source_count}, Target Rows: {target_count}."
+            )
         else:
             logger.error(
                 f"Validation FAILED for table '{table_name}'. RowMatch: {count_match}, ChecksumMatch: {checksum_match}, "
@@ -124,10 +134,12 @@ class MigrationValidator:
                 f"`{r.row_count_match}` | `{r.checksum_match}` | {r.sample_mismatches} | **{status_str}** |"
             )
 
-        md_lines.extend([
-            "",
-            f"**Final Migration Status**: {'APPROVED FOR CUTOVER ✅' if all_passed else 'REJECTED FOR CUTOVER ❌'}",
-        ])
+        md_lines.extend(
+            [
+                "",
+                f"**Final Migration Status**: {'APPROVED FOR CUTOVER ✅' if all_passed else 'REJECTED FOR CUTOVER ❌'}",
+            ]
+        )
 
         with open(md_file, "w", encoding="utf-8") as f:
             f.write("\n".join(md_lines))

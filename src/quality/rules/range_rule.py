@@ -1,6 +1,7 @@
 """Range Rule implementation."""
 
 from typing import Optional
+
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as F
 
@@ -11,7 +12,9 @@ from src.quality.rules.base_rule import BaseRule
 class RangeRule(BaseRule):
     """Rule asserting that column values fall within [min_val, max_val]."""
 
-    def __init__(self, column: str, min_val: Optional[float] = None, max_val: Optional[float] = None):
+    def __init__(
+        self, column: str, min_val: Optional[float] = None, max_val: Optional[float] = None
+    ):
         super().__init__(
             name=f"RangeCheck({column}: min={min_val}, max={max_val})",
             column=column,
@@ -49,7 +52,9 @@ class RangeRule(BaseRule):
             total_records=total,
             failed_records=failed_count,
             error_code=self.error_code,
-            error_message=f"Column '{self.column}' has {failed_count} values outside range [{self.min_val}, {self.max_val}]."
-            if not passed
-            else "Passed",
+            error_message=(
+                f"Column '{self.column}' has {failed_count} values outside range [{self.min_val}, {self.max_val}]."
+                if not passed
+                else "Passed"
+            ),
         )
