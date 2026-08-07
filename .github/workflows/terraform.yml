@@ -10,10 +10,15 @@ on:
     paths:
       - 'terraform/**'
 
+concurrency:
+  group: terraform-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   terraform_validate_plan:
     name: Terraform Format, Validate & Plan
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     permissions:
       contents: read
       id-token: write

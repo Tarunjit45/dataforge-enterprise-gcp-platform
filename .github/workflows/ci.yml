@@ -6,10 +6,15 @@ on:
   pull_request:
     branches: [ main, develop ]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint_and_test:
     name: Lint, Test & Quality Gates
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: "Stage 1: Checkout Code"
         uses: actions/checkout@v4
@@ -38,6 +43,7 @@ jobs:
   security_scans:
     name: DevSecOps Security Scans
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: "Stage 1: Checkout Code"
         uses: actions/checkout@v4
@@ -73,6 +79,7 @@ jobs:
     name: Build & Package Release Artifacts
     needs: [lint_and_test, security_scans]
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: "Stage 1: Checkout Code"
         uses: actions/checkout@v4
