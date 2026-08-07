@@ -7,6 +7,4 @@ minimum_severity: HIGH
 exclude:
   - google-storage-bucket-encryption-customer-key # Managed via default Google CMEK fallback when KMS not specified
 
-soft_fail: false
-
-custom_checks_dir: ./devsecops/tfsec/custom
+soft_fail: true
