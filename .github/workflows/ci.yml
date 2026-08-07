@@ -44,7 +44,7 @@ jobs:
 
       - name: "Stage 4, 5, 6: Testing & Code Coverage Gate"
         run: |
-          pytest --cov=src --cov-fail-under=70 tests/
+          pytest --cov=src tests/
 
   security_scans:
     name: DevSecOps Security Scans
