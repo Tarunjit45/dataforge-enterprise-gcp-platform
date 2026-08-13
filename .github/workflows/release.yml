@@ -24,7 +24,7 @@ jobs:
           bash scripts/package.sh prod "${GITHUB_REF_NAME}"
 
       - name: Create GitHub Release Artifacts
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v3
         with:
           files: release_artifacts/prod/*
           draft: false
